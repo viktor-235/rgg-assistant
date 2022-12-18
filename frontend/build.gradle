@@ -1,0 +1,12 @@
+// https://siouan.github.io/frontend-gradle-plugin/
+
+plugins {
+    id 'org.siouan.frontend-jdk11'
+}
+
+frontend {
+    nodeVersion = '18.12.1'
+    assembleScript = 'run build'
+    cleanScript = 'run clean'
+    checkScript = 'run check'
+}
