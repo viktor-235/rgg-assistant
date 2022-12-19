@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 import IGame from './types/IGame';
+import { AppBar, Box, Button, Card, CardActions, CardContent, Container, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
+import { AutoFixHigh, Inbox, Mail, VideogameAsset } from '@mui/icons-material';
 
 function App() {
+  const drawerWidth = 240;
   const [games, setGames] = useState<Array<IGame>>([]);
 
   useEffect(() => {
@@ -19,33 +21,63 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div>
-          <ul>
-            {games.map((game) => {
-              return (
-                <li key={game.id}>
-                  {game.name} - <a href={game.infoLink}>{game.infoLink}</a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </header>
-    </div>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <List>
+          <ListItem>
+            <Typography variant="h5" component="div">
+              RGG Assistant
+            </Typography>
+          </ListItem>
+          {['Modifiers', 'Games'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <AutoFixHigh /> : <VideogameAsset />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+      >
+        <Container maxWidth="sm">
+          <Stack spacing={2}>
+            {games.map((game) =>
+              <Card sx={{ minWidth: 275 }} key={game.id}>
+                <CardContent>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    Game
+                  </Typography>
+                  <Typography variant="h5" component="div">
+                    {game.name}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button href={game.infoLink}>About</Button>
+                </CardActions>
+              </Card>
+            )}
+          </Stack>
+        </Container>
+      </Box>
+    </Box>
   );
 }
 
