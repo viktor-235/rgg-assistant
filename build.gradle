@@ -1,8 +1,11 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.0'
-    id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.siouan.frontend-jdk11' version '6.0.0'
+    id 'com.palantir.git-version' version '0.15.0'
 }
 
 group = 'com.github.viktor235'
-version = '0.0.1-SNAPSHOT'
+version = gitVersion()
+
+subprojects {
+    group rootProject.group
+    version rootProject.version
+}
