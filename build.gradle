@@ -1,0 +1,11 @@
+plugins {
+    id 'com.palantir.git-version' version '0.15.0'
+}
+
+group = 'com.github.viktor235'
+version = gitVersion()
+
+subprojects {
+    group rootProject.group
+    version rootProject.version
+}

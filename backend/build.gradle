@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+bootJar {
+    archiveBaseName = rootProject.name
+    manifest {
+        attributes('Implementation-Title': rootProject.name,
+                'Implementation-Version': rootProject.version)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.3.Final'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// Copy the built frontend
+tasks.register('processFrontendResources', Copy) {
+    // Directory containing the artifacts in the frontend project
+    def frontendBuildDir = file("${project(':frontend').buildDir}")
+    // Directory where the frontend artifacts must be copied to be packaged alltogether with the backend by the 'war' plugin.
+    def frontendResourcesDir = file("${project.buildDir}/resources/main/public")
+
+    group 'Frontend'
+    description 'Process frontend resources'
+    dependsOn project(':frontend').tasks.named('assembleFrontend')
+
+    from frontendBuildDir
+    into frontendResourcesDir
+}
+tasks.named('processResources') {
+    dependsOn tasks.named('processFrontendResources')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
