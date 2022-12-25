@@ -17,4 +17,8 @@ public class GamesService {
     public List<Game> getAllGames() {
         return gamesRepository.findAll();
     }
+
+    public List<Game> getAllRandomized() {
+        return gamesRepository.findAllRandomized();
+    }
 }
