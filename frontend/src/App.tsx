@@ -1,17 +1,18 @@
+import { AutoFixHigh, VideogameAsset } from '@mui/icons-material';
+import { Box, Button, Card, CardActions, CardContent, Container, CssBaseline, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './App.css';
+import { ApiClient } from './services/ApiClient';
 import IGame from './types/IGame';
-import { AppBar, Box, Button, Card, CardActions, CardContent, Container, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
-import { AutoFixHigh, Inbox, Mail, VideogameAsset } from '@mui/icons-material';
 
 function App() {
+  const apiClient = new ApiClient();
   const drawerWidth = 240;
   const [games, setGames] = useState<Array<IGame>>([]);
 
   useEffect(() => {
-    fetch('/games')
-      .then((response) => response.json())
-      .then((data) => {
+    apiClient.getRandomGames()
+      .then(data => {
         console.log(data);
         setGames(data);
       })

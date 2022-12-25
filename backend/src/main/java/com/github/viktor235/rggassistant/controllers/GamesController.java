@@ -19,4 +19,9 @@ public class GamesController {
     public List<Game> getAllGames() {
         return gamesService.getAllGames();
     }
+
+    @GetMapping("/getAllRandomized")
+    public List<Game> getAllRandomized() {
+        return gamesService.getAllRandomized();
+    }
 }
