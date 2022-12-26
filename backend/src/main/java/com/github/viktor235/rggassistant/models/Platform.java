@@ -1,5 +1,6 @@
 package com.github.viktor235.rggassistant.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Platform {
     @Column(name = "release_date")
     private LocalDateTime releaseDate; // to sort by releaseDate
 
+    @JsonIgnore
     @OneToMany(mappedBy = "platform")
     Set<GamePlatform> gamePlatforms;
 
