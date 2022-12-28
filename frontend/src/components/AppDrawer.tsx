@@ -1,8 +1,23 @@
 import { AutoFixHigh, VideogameAsset } from "@mui/icons-material";
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 
 export default function AppDrawer() {
     const drawerWidth = 240;
+    const location = useLocation()
+
+    const pages = [
+        {
+            title: 'Modificators',
+            path: '/modWheel',
+            icon: <AutoFixHigh />
+        },
+        {
+            title: 'Games',
+            path: '/gameWheel',
+            icon: <VideogameAsset />
+        }
+    ];
 
     return (
         <Drawer
@@ -24,13 +39,13 @@ export default function AppDrawer() {
                         RGG Assistant
                     </Typography>
                 </ListItem>
-                {['Modifiers', 'Games'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
+                {pages.map(({ title, path, icon }) => (
+                    <ListItem key={title} disablePadding>
+                        <ListItemButton component={Link} to={path} selected={path === location.pathname}>
                             <ListItemIcon>
-                                {index % 2 === 0 ? <AutoFixHigh /> : <VideogameAsset />}
+                                {icon}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={title} />
                         </ListItemButton>
                     </ListItem>
                 ))}

@@ -2,12 +2,12 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeE
 import { Stack } from "@mui/system";
 import Grid from '@mui/system/Unstable_Grid';
 import { useEffect, useState } from "react";
+import GameCard from "../components/GameCard";
 import { ApiClient } from "../services/ApiClient";
 import IGame from "../types/IGame";
 import IPlatform from "../types/IPlatform";
-import GameCard from "./GameCard";
 
-export default function GameWheel() {
+export default function GameWheelPage() {
     const apiClient = new ApiClient();
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState<any | undefined>(undefined);
@@ -19,28 +19,24 @@ export default function GameWheel() {
         apiClient.getPlatforms()
             .then(data => {
                 console.log(data);
+                setIsLoaded(true);
                 setPlatforms(data);
             })
             .catch((err) => {
                 console.log(err.message);
+                setIsLoaded(true);
                 setError(error);
             });
-    }, []);
-
-    useEffect(() => {
-        roll();
     }, []);
 
     const roll = () => {
         apiClient.getRandomGames(selectedPlatformId > 0 ? selectedPlatformId : undefined)
             .then(data => {
                 console.log(data);
-                setIsLoaded(true);
                 setGames(data);
             })
             .catch((err) => {
                 console.log(err.message);
-                setIsLoaded(true);
                 setError(error);
             });
     }
@@ -78,16 +74,23 @@ export default function GameWheel() {
                             </Stack>
                         </Paper>
                     </Grid>
-                    <Grid sm={7} md={8} lg={9}><Stack
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}
-                    >
-                        {games.slice(0, 5).map((game) =>
-                            <GameCard game={game} />
-                        )}
-                    </Stack>
+                    <Grid sm={7} md={8} lg={9}>
+                        <Stack
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={2}
+                        >
+                            {games.length ?
+                                games.slice(0, 5).map((game) =>
+                                    <GameCard game={game} />
+                                )
+                                :
+                                <div>
+                                    Roll the wheel!!!
+                                </div>
+                            }
+                        </Stack>
                     </Grid>
                 </Grid>
     )

@@ -1,21 +1,12 @@
-import { Box, Container, CssBaseline } from '@mui/material';
+import { Box, CssBaseline } from '@mui/material';
 import './App.css';
-import AppDrawer from './components/AppDrawer';
-import GameWheel from './components/GameWheel';
+import Router from './Router';
 
 function App() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppDrawer />
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-      >
-        <Container maxWidth="xl">
-          <GameWheel />
-        </Container>
-      </Box>
+      <Router />
     </Box>
   );
 }
