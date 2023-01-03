@@ -9,36 +9,21 @@ import IPlatform from "../types/IPlatform";
 
 export default function GameWheelPage() {
     const apiClient = new ApiClient();
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(true);
     const [error, setError] = useState<any | undefined>(undefined);
     const [platforms, setPlatforms] = useState<Array<IPlatform>>([]);
     const [selectedPlatformId, setSelectedPlatformId] = useState<number>(-1);
     const [games, setGames] = useState<Array<IGame>>([]);
 
     useEffect(() => {
-        apiClient.getPlatforms()
-            .then(data => {
-                console.log(data);
-                setIsLoaded(true);
-                setPlatforms(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-                setIsLoaded(true);
-                setError(error);
-            });
+        apiClient.getPlatforms(setPlatforms, errFunc => setError)
     }, []);
 
     const roll = () => {
-        apiClient.getRandomGames(selectedPlatformId > 0 ? selectedPlatformId : undefined)
-            .then(data => {
-                console.log(data);
-                setGames(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-                setError(error);
-            });
+        apiClient.getRandomGames(
+            selectedPlatformId > 0 ? selectedPlatformId : undefined,
+            setGames
+        )
     }
 
     return (
@@ -83,7 +68,7 @@ export default function GameWheelPage() {
                         >
                             {games.length ?
                                 games.slice(0, 5).map((game) =>
-                                    <GameCard game={game} />
+                                    <GameCard key={game.id} game={game} />
                                 )
                                 :
                                 <div>

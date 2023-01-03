@@ -7,7 +7,7 @@ interface GameCardProps {
 
 export default function GameCard({ game }: GameCardProps) {
     return (
-        <Card sx={{ minWidth: 'sm', maxWidth: 'sm', width: 1 }} elevation={6} key={game.id}>
+        <Card sx={{ minWidth: 'sm', maxWidth: 'sm', width: 1 }} elevation={6}>
             <CardContent>
                 <Typography variant="h5" component="div">
                     {game.name}
