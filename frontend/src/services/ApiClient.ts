@@ -11,7 +11,7 @@ export class ApiClient {
     //// Games
 
     async getPlatformsApi(): Promise<IPlatform[]> {
-        return await this.get<IPlatform[]>("/games/getPlatforms");
+        return await this.get<IPlatform[]>("/games/platforms");
     }
     getPlatforms(
         dataFunc: (data: IPlatform[]) => void = this.defaultDataFunc,
@@ -25,7 +25,7 @@ export class ApiClient {
     }
 
     async getRandomGamesApi(platformId: number | undefined): Promise<IGame[]> {
-        const query = this.encodeQueryData("/games/getAllRandomized",
+        const query = this.encodeQueryData("/games/randomized",
             {
                 platformId: platformId
             })
