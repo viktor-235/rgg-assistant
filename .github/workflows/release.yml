@@ -37,6 +37,9 @@ jobs:
           distribution: adopt
           cache: gradle
 
+      # Debug dirty git state and prevent bug: https://github.com/palantir/gradle-git-version/issues/28
+      - run: git status
+
       # Build
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1

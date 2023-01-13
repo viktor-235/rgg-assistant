@@ -5,6 +5,7 @@ plugins {
 frontend {
     nodeVersion = '18.12.1'
     assembleScript = 'run build'
+//    assembleScript = 'run build-win'
     cleanScript = 'run clean'
     checkScript = 'run test'
 }
