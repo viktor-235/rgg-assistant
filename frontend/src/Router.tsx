@@ -2,7 +2,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import MainLayout from "./layouts/MainLayout";
 import GameWheelPage from "./pages/GameWheelPage";
 import MainPage from "./pages/MainPage";
-import ModificatorWheelPage from "./pages/ModificatorWheelPage";
+import ModifierWheelPage from "./pages/ModifierWheelPage";
 
 export default function Router() {
     const routes = useRoutes([
@@ -12,7 +12,7 @@ export default function Router() {
             children: [
                 { element: <Navigate to="/main" />, index: true },
                 { path: 'main', element: <MainPage /> },
-                { path: 'modWheel', element: <ModificatorWheelPage /> },
+                { path: 'modWheel', element: <ModifierWheelPage /> },
                 { path: 'gameWheel', element: <GameWheelPage /> }
             ],
         },

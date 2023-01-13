@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "effect")
 @Getter
 @Setter
-public class Effect extends AbstractWheelElement {
+public class Effect extends AbstractModifier {
     /**
      * Converter: {@link EffectTypeConverter}
      */
@@ -28,7 +28,7 @@ public class Effect extends AbstractWheelElement {
     private List<CurrentEffect> currentEffects;
 
     @Override
-    String getElementType() {
+    public String getModifierType() {
         return "effect";
     }
 }

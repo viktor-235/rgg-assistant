@@ -8,7 +8,7 @@ export default function AppDrawer() {
 
     const pages = [
         {
-            title: 'Modificators',
+            title: 'Modifiers',
             path: '/modWheel',
             icon: <AutoFixHigh />
         },
