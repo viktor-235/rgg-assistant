@@ -6,6 +6,6 @@ frontend {
     nodeVersion = '18.12.1'
     assembleScript = 'run build'
 //    assembleScript = 'run build-win'
-    cleanScript = 'run clean'
+//    cleanScript = 'run clean' // create-react-app has no clean script
     checkScript = 'run test'
 }
