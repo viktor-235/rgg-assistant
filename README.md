@@ -1,6 +1,16 @@
-<h2 align="center">Retro Game Gauntlet Assistant</h3>
-
----
+<div align="center">
+    <h3 align="center">Retro Game Gauntlet Assistant</h3>
+    <p>
+        Приложение для проведения Retro Game Gauntlet
+    </p>
+    <p>
+        <a href="https://github.com/viktor-235/rgg-assistant/releases/latest">Последняя версия</a>
+        <span> · </span>
+        <a href="https://github.com/viktor-235/rgg-assistant/releases">Список изменений</a>
+        <span> · </span>
+        <a href="https://github.com/viktor-235/rgg-assistant/issues">Сообщить о проблеме или предложить улучшение</a>
+    </p>
+</div>
 
 ## Установка
 - Скачайте [последнюю версию](https://github.com/viktor-235/rgg-assistant/releases/latest) ([все релизы со списком изменений](https://github.com/viktor-235/rgg-assistant/releases))
