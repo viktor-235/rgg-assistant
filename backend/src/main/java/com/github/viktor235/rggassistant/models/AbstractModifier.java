@@ -1,14 +1,16 @@
 package com.github.viktor235.rggassistant.models;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Schema(description = "Abstract entity for effects and items")
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
-public abstract class AbstractWheelElement {
+public abstract class AbstractModifier {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
@@ -21,8 +23,9 @@ public abstract class AbstractWheelElement {
     private String description;
 
     /**
-     * @return particular WheelElement type (effect, item).
-     * This field includes to json response to help GUI client to recognize WheelElement
+     * @return particular Modifier type (effect, item).
+     * This field includes to json response to help GUI client to recognize Modifier
      */
-    abstract String getElementType();
+    @Schema(description = "Field for distinguishing effects from items")
+    public abstract String getModifierType();
 }

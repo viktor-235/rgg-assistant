@@ -13,13 +13,13 @@ import java.util.List;
 @Table(name = "item")
 @Getter
 @Setter
-public class Item extends AbstractWheelElement {
+public class Item extends AbstractModifier {
     @OneToMany(mappedBy = "item")
     @JsonIgnore
     private List<Inventory> items;
 
     @Override
-    String getElementType() {
+    public String getModifierType() {
         return "item";
     }
 }
