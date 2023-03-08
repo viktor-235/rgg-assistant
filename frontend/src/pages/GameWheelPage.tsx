@@ -2,10 +2,9 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeE
 import { Stack } from "@mui/system";
 import Grid from '@mui/system/Unstable_Grid';
 import { useEffect, useState } from "react";
-import GameCard from "../components/GameCard";
+import GameCard from "../components/games/GameCard";
 import { ApiClient } from "../services/ApiClient";
-import IGame from "../types/IGame";
-import IPlatform from "../types/IPlatform";
+import { IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
 
 export default function GameWheelPage() {
     const apiClient = new ApiClient();
@@ -13,7 +12,7 @@ export default function GameWheelPage() {
     const [error, setError] = useState<any | undefined>(undefined);
     const [platforms, setPlatforms] = useState<Array<IPlatform>>([]);
     const [selectedPlatformId, setSelectedPlatformId] = useState<number>(-1);
-    const [games, setGames] = useState<Array<IGame>>([]);
+    const [gameOnPlatforms, setGamesOnPlatforms] = useState<Array<IGameOnPlatformDto>>([]);
 
     useEffect(() => {
         apiClient.getPlatforms(setPlatforms, errFunc => setError)
@@ -22,7 +21,7 @@ export default function GameWheelPage() {
     const roll = () => {
         apiClient.getRandomGames(
             selectedPlatformId > 0 ? selectedPlatformId : undefined,
-            setGames
+            setGamesOnPlatforms
         )
     }
 
@@ -66,9 +65,9 @@ export default function GameWheelPage() {
                             alignItems="center"
                             spacing={2}
                         >
-                            {games.length ?
-                                games.slice(0, 5).map((game) =>
-                                    <GameCard key={game.id} game={game} />
+                            {gameOnPlatforms.length ?
+                                gameOnPlatforms.slice(0, 5).map((gameOnPlatform) =>
+                                    <GameCard key={gameOnPlatform.id} gameOnPlatform={gameOnPlatform} />
                                 )
                                 :
                                 <div>
