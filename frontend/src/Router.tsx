@@ -1,5 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 import MainLayout from "./layouts/MainLayout";
+import GameCollectionPage from './pages/GameCollectionPage';
 import GameWheelPage from "./pages/GameWheelPage";
 import MainPage from "./pages/MainPage";
 import ModifierWheelPage from "./pages/ModifierWheelPage";
@@ -13,7 +14,8 @@ export default function Router() {
                 { element: <Navigate to="/main" />, index: true },
                 { path: 'main', element: <MainPage /> },
                 { path: 'modWheel', element: <ModifierWheelPage /> },
-                { path: 'gameWheel', element: <GameWheelPage /> }
+                { path: 'gameWheel', element: <GameWheelPage /> },
+                { path: 'gameCollection', element: <GameCollectionPage /> }
             ],
         },
         // {

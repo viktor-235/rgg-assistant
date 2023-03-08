@@ -1,23 +1,23 @@
 package com.github.viktor235.rggassistant.controllers;
 
 import com.github.viktor235.rggassistant.models.AbstractModifier;
-import com.github.viktor235.rggassistant.models.CurrentEffect;
+import com.github.viktor235.rggassistant.models.CollectedEffect;
 import com.github.viktor235.rggassistant.models.Effect;
 import com.github.viktor235.rggassistant.services.ModifiersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Tag(name = "Play modifiers (effects and items)", description = "Access the modifier section and modifier wheel. Modifier is an effect or an item which modifies the play")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("modifiers")
 public class ModifiersController {
-    @Autowired
-    private ModifiersService modifiersService;
+    private final ModifiersService modifiersService;
 
     /* Abstract modifiers */
 
@@ -66,7 +66,7 @@ public class ModifiersController {
 
     @Operation(summary = "Get all collected effects")
     @GetMapping("/effectCollection")
-    public List<CurrentEffect> getCollectedEffect() {
+    public List<CollectedEffect> getCollectedEffects() {
         return modifiersService.getCollectedEffects();
     }
 
@@ -79,7 +79,7 @@ public class ModifiersController {
         modifiersService.collectEffect(id);
     }
 
-    @Operation(summary = "Delete an effect by id")
+    @Operation(summary = "Delete an effect from collection by id")
     @DeleteMapping("/effectCollection/{id}")
     public void deleteCollectedEffect(
             @Parameter(description = "effect id")

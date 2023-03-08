@@ -25,7 +25,7 @@ public class Effect extends AbstractModifier {
 
     @OneToMany(mappedBy = "effect")
     @JsonIgnore
-    private List<CurrentEffect> currentEffects;
+    private List<CollectedEffect> collectedEffects;
 
     @Override
     public String getModifierType() {

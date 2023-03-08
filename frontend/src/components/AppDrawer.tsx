@@ -1,4 +1,4 @@
-import { AutoFixHigh, VideogameAsset } from "@mui/icons-material";
+import { AutoFixHigh, ListAlt, VideogameAsset } from "@mui/icons-material";
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
@@ -16,6 +16,11 @@ export default function AppDrawer() {
             title: 'Games',
             path: '/gameWheel',
             icon: <VideogameAsset />
+        },
+        {
+            title: 'Game Collection',
+            path: '/gameCollection',
+            icon: <ListAlt />
         }
     ];
 
