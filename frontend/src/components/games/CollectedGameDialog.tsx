@@ -19,8 +19,6 @@ export default function CollectedGameDialog({ game, onClose, onUpdate, onDelete 
     const [changed, setChanged] = useState<boolean>(false);
 
     function handleSpentTimeChanged(conformedValue: string, config: PipeConfig) {
-        console.log(conformedValue, config)
-
         if (conformedValue === changedData.spentTime || (conformedValue === config.placeholder && changedData.spentTime == undefined))
             return conformedValue
 

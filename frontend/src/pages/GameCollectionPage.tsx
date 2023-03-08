@@ -33,7 +33,6 @@ export default function GameCollectionPage() {
             data[gamePlatform.gamePlatform.platform.name].push(gamePlatform)
         })
         setGameMap(data)
-        console.log("setGameMap", data)
     }, [platforms, collectedGames]);
 
     const updateGames = () => {
