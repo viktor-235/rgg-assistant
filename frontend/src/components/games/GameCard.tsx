@@ -4,9 +4,10 @@ import { IGameOnPlatformDto } from "../../types/GameTypes";
 
 interface GameCardProps {
     gameOnPlatform: IGameOnPlatformDto;
+    highlighted: boolean
 }
 
-export default function GameCard({ gameOnPlatform }: GameCardProps) {
+export default function GameCard({ gameOnPlatform, highlighted }: GameCardProps) {
     const apiClient = new ApiClient();
 
     function collectGame(id: number): import("react").MouseEventHandler<HTMLButtonElement> | undefined {
@@ -15,7 +16,10 @@ export default function GameCard({ gameOnPlatform }: GameCardProps) {
     }
 
     return (
-        <Card sx={{ minWidth: 'sm', maxWidth: 'sm', width: 1 }} elevation={6}>
+        <Card sx={{
+            minWidth: 'sm', maxWidth: 'sm', width: 1,
+            ...(highlighted && { border: "solid", borderColor: 'primary.main' })
+        }} elevation={6} >
             <CardContent>
                 <Typography variant="h5" component="div">
                     {gameOnPlatform.game?.name || 'Unknown game'}

@@ -2,7 +2,7 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeE
 import { Stack } from "@mui/system";
 import Grid from '@mui/system/Unstable_Grid';
 import { useEffect, useState } from "react";
-import GameCard from "../components/games/GameCard";
+import GameWheel from "../components/GameWheel";
 import { ApiClient } from "../services/ApiClient";
 import { IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
 
@@ -59,22 +59,7 @@ export default function GameWheelPage() {
                         </Paper>
                     </Grid>
                     <Grid sm={7} md={8} lg={9}>
-                        <Stack
-                            direction="column"
-                            justifyContent="center"
-                            alignItems="center"
-                            spacing={2}
-                        >
-                            {gameOnPlatforms.length ?
-                                gameOnPlatforms.slice(0, 5).map((gameOnPlatform) =>
-                                    <GameCard key={gameOnPlatform.id} gameOnPlatform={gameOnPlatform} />
-                                )
-                                :
-                                <div>
-                                    Roll the wheel!!!
-                                </div>
-                            }
-                        </Stack>
+                        <GameWheel games={gameOnPlatforms} />
                     </Grid>
                 </Grid>
     )
