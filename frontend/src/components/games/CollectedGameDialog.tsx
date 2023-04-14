@@ -2,7 +2,7 @@ import { Clear, Close } from "@mui/icons-material";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { useState } from "react";
 import MaskedInput, { PipeConfig } from "react-text-mask";
-import { ApiClient } from "../../services/ApiClient";
+import { useApiClient } from "../../contexts/ApiClientContext";
 import { CollectedGameStatus, ICollectedGamePlatformDto } from "../../types/GameTypes";
 import { CollectedGameAvatar, CollectedGameStatusText } from "../games/CollectedGameStatus";
 
@@ -14,7 +14,7 @@ interface CollectedGameDialogProps {
 }
 
 export default function CollectedGameDialog({ game, onClose, onUpdate, onDelete }: CollectedGameDialogProps) {
-    const apiClient = new ApiClient();
+    const apiClient = useApiClient();
     const [changedData, setChangedData] = useState<ICollectedGamePlatformDto>(game);
     const [changed, setChanged] = useState<boolean>(false);
 

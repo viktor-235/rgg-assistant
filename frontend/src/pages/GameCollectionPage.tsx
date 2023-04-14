@@ -3,11 +3,11 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect, useState } from "react";
 import CollectedGameDialog from "../components/games/CollectedGameDialog";
 import { CollectedGameAvatar } from "../components/games/CollectedGameStatus";
-import { ApiClient } from "../services/ApiClient";
+import { useApiClient } from "../contexts/ApiClientContext";
 import { ICollectedGamePlatformDto, IPlatform } from "../types/GameTypes";
 
 export default function GameCollectionPage() {
-    const apiClient = new ApiClient();
+    const apiClient = useApiClient();
     const [platforms, setPlatforms] = useState<Array<IPlatform>>([]);
     const [collectedGames, setCollectedGames] = useState<Array<ICollectedGamePlatformDto>>([]);
     const [gameMap, setGameMap] = useState<{ [id: string]: Array<ICollectedGamePlatformDto> }>({});

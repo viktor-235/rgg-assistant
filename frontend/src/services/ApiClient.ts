@@ -1,11 +1,7 @@
 import { ICollectedGamePlatformDto, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
+import { BaseApiClient, Config } from "./BaseApiClient";
 
-export class ApiClient {
-    private baseUrl = "";
-    private headers = {};
-    private defaultDataFunc: (data: any) => void = console.log;
-    private defaultLoadFunc = (loaded: boolean) => console.log("Loaded: " + loaded);
-    private defaultErrFunc = console.error;
+export class ApiClient extends BaseApiClient {
 
     //// Games
 
@@ -14,12 +10,11 @@ export class ApiClient {
     }
     getPlatforms(
         dataFunc: (data: IPlatform[]) => void = this.defaultDataFunc,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
         return this.call(
             this.getPlatformsApi(),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
@@ -33,12 +28,11 @@ export class ApiClient {
     getRandomGames(
         platformId: number | undefined,
         dataFunc: (data: IGameOnPlatformDto[]) => void = this.defaultDataFunc,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
         return this.call(
             this.getRandomGamesApi(platformId),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
@@ -49,12 +43,11 @@ export class ApiClient {
     }
     getCollectedGames(
         dataFunc: (data: ICollectedGamePlatformDto[]) => void = this.defaultDataFunc,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
         return this.call(
             this.getCollectedGamesApi(),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
@@ -64,12 +57,11 @@ export class ApiClient {
     collectGame(
         gameId: number,
         dataFunc: () => void = () => undefined,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
         return this.call(
             this.collectGameApi(gameId),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
@@ -79,12 +71,11 @@ export class ApiClient {
     updateCollectedGamePlatform(
         collectedGamePlatform: ICollectedGamePlatformDto,
         dataFunc: () => void = () => undefined,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
         return this.call(
             this.updateCollectedGamePlatformApi(collectedGamePlatform),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
@@ -94,121 +85,11 @@ export class ApiClient {
     deleteCollectedGamePlatform(
         collectedGamePlatformId: number,
         dataFunc: () => void = () => undefined,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
         return this.call(
             this.deleteCollectedGamePlatformApi(collectedGamePlatformId),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
-    }
-
-    //// Helpers
-
-    call<T>(
-        apiCall: Promise<T>,
-        dataFunc: (data: T) => void = console.log,
-        loadFunc: (loaded: boolean) => void = (loaded) => console.log("Loaded: " + loaded),
-        errFunc: (error: T) => void = console.error
-    ) {
-        return apiCall
-            .then(data => {
-                console.log(data);
-                loadFunc(true);
-                dataFunc(data);
-            })
-            .catch((err) => {
-                console.error(err);
-                loadFunc(true);
-                errFunc(err);
-            });
-    }
-
-    async get<T = any>(endpoint: string, options = {}): Promise<T> {
-        return this._fetchJSONWithResult(
-            endpoint,
-            {
-                ...options,
-                method: 'GET'
-            }
-        )
-    }
-
-    async post(endpoint: string, body: any = undefined, options = {}) {
-        return this._fetchJSON(
-            endpoint,
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                ...options,
-                body: JSON.stringify(body),
-                method: 'POST'
-            }
-        )
-    }
-
-    async put(endpoint: string, body: any, options = {}) {
-        return this._fetchJSON(
-            endpoint,
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                ...options,
-                body: JSON.stringify(body),
-                method: 'PUT'
-            }
-        )
-    }
-
-    async delete(endpoint: string, options = {}) {
-        return this._fetchJSON(
-            endpoint,
-            {
-                ...options,
-                method: 'DELETE'
-            },
-            // false
-        )
-    }
-
-    encodeQueryData(query: string, params: any): string {
-        for (const [key, value] of Object.entries(params))
-            if (!value)
-                delete params[key];
-
-        var paramStr = new URLSearchParams(params).toString();
-        return paramStr ? query + "?" + paramStr : query;
-    }
-
-    async _fetchJSONWithResult<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
-        const res = await fetch(this.baseUrl + endpoint, {
-            headers: this.headers,
-            ...options
-        });
-
-        console.log(res);
-
-        if (!res.ok) throw new Error(res.statusText);
-
-        // if (parseResponse !== false && res.status !== 204)
-        return res.json();
-
-        // return undefined;
-    }
-
-    async _fetchJSON<T = any>(endpoint: string, options: RequestInit = {}): Promise<void> {
-        const res = await fetch(this.baseUrl + endpoint, {
-            headers: this.headers,
-            ...options
-        });
-
-        console.log(res);
-
-        if (!res.ok) throw new Error(res.statusText);
-
-        // if (parseResponse !== false && res.status !== 204)
-        return;
     }
 }
