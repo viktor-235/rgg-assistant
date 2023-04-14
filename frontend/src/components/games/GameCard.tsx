@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-import { ApiClient } from "../../services/ApiClient";
+import { useApiClient } from "../../contexts/ApiClientContext";
 import { IGameOnPlatformDto } from "../../types/GameTypes";
 
 interface GameCardProps {
@@ -8,7 +8,7 @@ interface GameCardProps {
 }
 
 export default function GameCard({ gameOnPlatform, highlighted }: GameCardProps) {
-    const apiClient = new ApiClient();
+    const apiClient = useApiClient();
 
     function collectGame(id: number): import("react").MouseEventHandler<HTMLButtonElement> | undefined {
         apiClient.collectGame(id)
