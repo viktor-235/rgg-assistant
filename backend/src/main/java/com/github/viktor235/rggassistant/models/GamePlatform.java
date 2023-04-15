@@ -2,12 +2,14 @@ package com.github.viktor235.rggassistant.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * This entity is ManyToMany relation between {@link Game} and {@link Platform}
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "game_platform")
 @Getter
@@ -19,7 +21,7 @@ public class GamePlatform {
     private int id;
 
     @ManyToOne()
-    @JoinColumn(name = "game_id", nullable = false)
+    @JoinColumn(name = "game_id")
     @JsonIgnore
     private Game game;
 
@@ -27,6 +29,4 @@ public class GamePlatform {
     @JoinColumn(name = "platform_id", nullable = false)
     @JsonIgnore
     private Platform platform;
-
-    // additional fields
 }

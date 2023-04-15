@@ -13,8 +13,21 @@ public interface GamePlatformRepository extends JpaRepository<GamePlatform, Inte
 
      @Query("""
              SELECT gp FROM GamePlatform gp
+             ORDER BY RANDOM()
+             """)
+     List<GamePlatform> findAllRandomized();
+
+     @Query("""
+             SELECT gp FROM GamePlatform gp
              WHERE gp.platform.id = :platformId
              ORDER BY RANDOM()
              """)
      List<GamePlatform> findAllRandomized(int platformId);
+
+     @Query("""
+             SELECT gp FROM GamePlatform gp
+             WHERE gp.game = null
+             AND gp.platform.id = :platformId
+             """)
+     GamePlatform findUnknownGamePlatform(int platformId);
 }

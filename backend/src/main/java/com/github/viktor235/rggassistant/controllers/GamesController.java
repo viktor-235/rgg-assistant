@@ -1,31 +1,32 @@
 package com.github.viktor235.rggassistant.controllers;
 
+import com.github.viktor235.rggassistant.mappers.CollectedGamePlatformMapper;
+import com.github.viktor235.rggassistant.mappers.GameOnPlatformMapper;
+import com.github.viktor235.rggassistant.models.CollectedGamePlatform;
 import com.github.viktor235.rggassistant.models.Game;
 import com.github.viktor235.rggassistant.models.Platform;
+import com.github.viktor235.rggassistant.models.dto.CollectedGamePlatformDto;
+import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
 import com.github.viktor235.rggassistant.services.GamesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Tag(name = "Games and platforms", description = "Access the game section and game wheel")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("games")
 public class GamesController {
-    @Autowired
-    private GamesService gamesService;
+    private final GamesService gamesService;
+    private final GameOnPlatformMapper gameOnPlatformMapper;
+    private final CollectedGamePlatformMapper collectedGamePlatformMapper;
 
-    @Operation(summary = "Get all games")
-    @GetMapping()
-    public List<Game> getAllGames() {
-        return gamesService.getAllGames();
-    }
+    /* Platforms */
 
     @Operation(summary = "Get all available game platforms (consoles)")
     @GetMapping("/platforms")
@@ -33,12 +34,74 @@ public class GamesController {
         return gamesService.getPlatforms();
     }
 
-    @Operation(summary = "Get randomized list of games. Can be filtered by the platformId")
+    /* Games */
+
+    @Operation(summary = "Get all games")
+    @GetMapping()
+    public List<Game> getAllGames() {
+        return gamesService.getAllGames();
+    }
+
+    @Operation(summary = "Get randomized list of GamePlatform. Can be filtered by the platformId")
     @GetMapping("/randomized")
-    public List<Game> getAllRandomized(
-            @Parameter(description = "id of the platform to filter the result. If not specified, all games will be returned")
+    public List<GameOnPlatformDto> getAllRandomized(
+            @Parameter(description = "id of the platform to filter the result. If not specified, all GamePlatform will be returned")
             @RequestParam(required = false) Integer platformId
     ) {
-        return gamesService.getAllRandomized(platformId);
+        return gameOnPlatformMapper.toDtoList(
+                gamesService.getAllRandomized(platformId)
+        );
+    }
+
+    /* Game collection */
+
+    @Operation(summary = "Get all CollectedGamePlatform")
+    @GetMapping("/gameCollection")
+    public List<CollectedGamePlatformDto> getCollectedGamePlatforms() {
+        return collectedGamePlatformMapper.toDtoList(
+                gamesService.getCollectedGamePlatforms()
+        );
+    }
+
+    @Operation(summary = "Collect unknown (random) GamePlatform")
+    @PostMapping("/gameCollection/unknown")
+    public void collectUnknownGamePlatform(
+            @Parameter(description = "Platform id")
+            @RequestParam int platformId
+    ) {
+        gamesService.collectUnknownGamePlatform(platformId);
+    }
+
+    @Operation(summary = "Collect a GamePlatform by id")
+    @PostMapping("/gameCollection/{id}")
+    public void collectGamePlatform(
+            @Parameter(description = "GamePlatform id")
+            @PathVariable int id
+    ) {
+        gamesService.collectGamePlatform(id);
+    }
+
+    @Operation(summary = "Update collected GamePlatform")
+    @PutMapping("/gameCollection/{id}")
+    public void updateCollectedGamePlatform(
+            @Parameter(description = "GamePlatform id")
+            @PathVariable int id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "GamePlatform data to update")
+            @RequestBody CollectedGamePlatformDto collectedGamePlatform
+    ) {
+        if (!Objects.equals(id, collectedGamePlatform.getId())) {
+            throw new IllegalArgumentException("Ids don't match");
+        }
+        CollectedGamePlatform updatedCgp = collectedGamePlatformMapper.toEntity(collectedGamePlatform);
+        gamesService.updateCollectedGamePlatform(updatedCgp);
+    }
+
+    @Operation(summary = "Delete a GamePlatform from collection by id")
+    @DeleteMapping("/gameCollection/{id}")
+    public void deleteCollectedGamePlatform(
+            @Parameter(description = "GamePlatform id")
+            @PathVariable int id
+    ) {
+        gamesService.deleteCollectedGamePlatform(id);
     }
 }

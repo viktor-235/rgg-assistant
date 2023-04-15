@@ -1,12 +1,7 @@
-import IGame from "../types/IGame";
-import IPlatform from "../types/IPlatform";
+import { ICollectedGamePlatformDto, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
+import { BaseApiClient, Config } from "./BaseApiClient";
 
-export class ApiClient {
-    private baseUrl = "";
-    private headers = {};
-    private defaultDataFunc: (data: any) => void = console.log;
-    private defaultLoadFunc = (loaded: boolean) => console.log("Loaded: " + loaded);
-    private defaultErrFunc = console.error;
+export class ApiClient extends BaseApiClient {
 
     //// Games
 
@@ -15,109 +10,86 @@ export class ApiClient {
     }
     getPlatforms(
         dataFunc: (data: IPlatform[]) => void = this.defaultDataFunc,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        cfg?: Partial<Config>
     ) {
-        this.call(
+        return this.call(
             this.getPlatformsApi(),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
-    async getRandomGamesApi(platformId: number | undefined): Promise<IGame[]> {
+    async getRandomGamesApi(platformId: number | undefined): Promise<IGameOnPlatformDto[]> {
         const query = this.encodeQueryData("/games/randomized",
             {
                 platformId: platformId
             })
-        return await this.get<IGame[]>(query);
+        return await this.get<IGameOnPlatformDto[]>(query);
     }
     getRandomGames(
         platformId: number | undefined,
-        dataFunc: (data: IGame[]) => void = this.defaultDataFunc,
-        loadFunc: (loaded: boolean) => void = this.defaultLoadFunc,
-        errFunc: (error: any) => void = this.defaultErrFunc
+        dataFunc: (data: IGameOnPlatformDto[]) => void = this.defaultDataFunc,
+        cfg?: Partial<Config>
     ) {
-        this.call(
+        return this.call(
             this.getRandomGamesApi(platformId),
-            dataFunc, loadFunc, errFunc
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
-    //// Helpers
+    //// Game Collection
 
-    call<T>(
-        apiCall: Promise<T>,
-        dataFunc: (data: T) => void = console.log,
-        loadFunc: (loaded: boolean) => void = (loaded) => console.log("Loaded: " + loaded),
-        errFunc: (error: T) => void = console.error
+    async getCollectedGamesApi(): Promise<ICollectedGamePlatformDto[]> {
+        return await this.get<ICollectedGamePlatformDto[]>("/games/gameCollection");
+    }
+    getCollectedGames(
+        dataFunc: (data: ICollectedGamePlatformDto[]) => void = this.defaultDataFunc,
+        cfg?: Partial<Config>
     ) {
-        apiCall
-            .then(data => {
-                console.log(data);
-                loadFunc(true);
-                dataFunc(data);
-            })
-            .catch((err) => {
-                console.error(err);
-                loadFunc(true);
-                errFunc(err);
-            });
-    }
-
-    async get<T = any>(endpoint: string, options = {}): Promise<T> {
-        return this._fetchJSON(
-            endpoint,
-            {
-                ...options,
-                method: 'GET'
-            }
+        return this.call(
+            this.getCollectedGamesApi(),
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
-    async post(endpoint: string, body: any, options = {}) {
-        return this._fetchJSON(
-            endpoint,
-            {
-                ...options,
-                body: JSON.stringify(body),
-                method: 'POST'
-            }
+    async collectGameApi(gameId: number): Promise<void> {
+        return await this.post(`/games/gameCollection/${gameId}`);
+    }
+    collectGame(
+        gameId: number,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(
+            this.collectGameApi(gameId),
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
-    async delete(endpoint: string, options = {}) {
-        return this._fetchJSON(
-            endpoint,
-            {
-                ...options,
-                method: 'DELETE'
-            },
-            // false
+    async updateCollectedGamePlatformApi(collectedGamePlatform: ICollectedGamePlatformDto): Promise<void> {
+        return await this.put(`/games/gameCollection/${collectedGamePlatform.id}`, collectedGamePlatform);
+    }
+    updateCollectedGamePlatform(
+        collectedGamePlatform: ICollectedGamePlatformDto,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(
+            this.updateCollectedGamePlatformApi(collectedGamePlatform),
+            dataFunc, { ...this.config, ...cfg }
         )
     }
 
-    encodeQueryData(query: string, params: any): string {
-        for (const [key, value] of Object.entries(params))
-            if (!value)
-                delete params[key];
-
-        var paramStr = new URLSearchParams(params).toString();
-        return paramStr ? query + "?" + paramStr : query;
+    async deleteCollectedGamePlatformApi(collectedGamePlatformId: number): Promise<void> {
+        return await this.delete(`/games/gameCollection/${collectedGamePlatformId}`);
     }
-
-    async _fetchJSON<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
-        const res = await fetch(this.baseUrl + endpoint, {
-            ...options,
-            headers: this.headers
-        });
-
-        console.log(res);
-
-        if (!res.ok) throw new Error(res.statusText);
-
-        // if (parseResponse !== false && res.status !== 204)
-        return res.json();
-
-        // return undefined;
+    deleteCollectedGamePlatform(
+        collectedGamePlatformId: number,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(
+            this.deleteCollectedGamePlatformApi(collectedGamePlatformId),
+            dataFunc, { ...this.config, ...cfg }
+        )
     }
 }
