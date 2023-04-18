@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.modifiers;
 
 import jakarta.persistence.*;
 import lombok.*;

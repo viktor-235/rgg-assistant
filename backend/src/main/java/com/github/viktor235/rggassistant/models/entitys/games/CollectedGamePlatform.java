@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.games;
 
 import com.github.viktor235.rggassistant.models.converters.CollectedGameStatusConverter;
 import com.github.viktor235.rggassistant.models.enums.CollectedGameStatus;

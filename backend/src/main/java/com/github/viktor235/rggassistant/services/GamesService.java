@@ -1,9 +1,9 @@
 package com.github.viktor235.rggassistant.services;
 
-import com.github.viktor235.rggassistant.models.CollectedGamePlatform;
-import com.github.viktor235.rggassistant.models.Game;
-import com.github.viktor235.rggassistant.models.GamePlatform;
-import com.github.viktor235.rggassistant.models.Platform;
+import com.github.viktor235.rggassistant.models.entitys.games.CollectedGamePlatform;
+import com.github.viktor235.rggassistant.models.entitys.games.Game;
+import com.github.viktor235.rggassistant.models.entitys.games.GamePlatform;
+import com.github.viktor235.rggassistant.models.entitys.games.Platform;
 import com.github.viktor235.rggassistant.models.enums.CollectedGameStatus;
 import com.github.viktor235.rggassistant.repositories.CollectedGameRepository;
 import com.github.viktor235.rggassistant.repositories.GamePlatformRepository;

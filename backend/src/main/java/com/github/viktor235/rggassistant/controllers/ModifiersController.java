@@ -1,8 +1,8 @@
 package com.github.viktor235.rggassistant.controllers;
 
-import com.github.viktor235.rggassistant.models.AbstractModifier;
-import com.github.viktor235.rggassistant.models.CollectedEffect;
-import com.github.viktor235.rggassistant.models.Effect;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.AbstractModifier;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.CollectedEffect;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.Effect;
 import com.github.viktor235.rggassistant.services.ModifiersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
