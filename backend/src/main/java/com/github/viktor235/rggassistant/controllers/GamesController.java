@@ -2,9 +2,9 @@ package com.github.viktor235.rggassistant.controllers;
 
 import com.github.viktor235.rggassistant.mappers.CollectedGamePlatformMapper;
 import com.github.viktor235.rggassistant.mappers.GameOnPlatformMapper;
-import com.github.viktor235.rggassistant.models.CollectedGamePlatform;
-import com.github.viktor235.rggassistant.models.Game;
-import com.github.viktor235.rggassistant.models.Platform;
+import com.github.viktor235.rggassistant.models.entitys.games.CollectedGamePlatform;
+import com.github.viktor235.rggassistant.models.entitys.games.Game;
+import com.github.viktor235.rggassistant.models.entitys.games.Platform;
 import com.github.viktor235.rggassistant.models.dto.CollectedGamePlatformDto;
 import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
 import com.github.viktor235.rggassistant.services.GamesService;

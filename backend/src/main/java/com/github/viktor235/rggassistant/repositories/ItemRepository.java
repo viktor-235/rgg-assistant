@@ -1,9 +1,9 @@
 package com.github.viktor235.rggassistant.repositories;
 
-import com.github.viktor235.rggassistant.models.entitys.games.Platform;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PlatformRepository extends JpaRepository<Platform, Integer> {
+public interface ItemRepository extends JpaRepository<Item, Integer> {
 }

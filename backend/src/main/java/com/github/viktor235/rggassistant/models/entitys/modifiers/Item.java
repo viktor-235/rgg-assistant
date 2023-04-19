@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.modifiers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class Item extends AbstractModifier {
     @OneToMany(mappedBy = "item")
     @JsonIgnore
-    private List<Inventory> items;
+    private List<CollectedItem> items;
 
     @Override
     public String getModifierType() {

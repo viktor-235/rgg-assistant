@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.modifiers;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;

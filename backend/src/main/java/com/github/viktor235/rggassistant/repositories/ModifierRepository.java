@@ -1,6 +1,6 @@
 package com.github.viktor235.rggassistant.repositories;
 
-import com.github.viktor235.rggassistant.models.AbstractModifier;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.AbstractModifier;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

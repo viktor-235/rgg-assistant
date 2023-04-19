@@ -1,4 +1,5 @@
 import { ICollectedGamePlatformDto, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
+import { ICollectedEffect, ICollectedItem } from "../types/ModifierTypes";
 import { BaseApiClient, Config } from "./BaseApiClient";
 
 export class ApiClient extends BaseApiClient {
@@ -12,10 +13,7 @@ export class ApiClient extends BaseApiClient {
         dataFunc: (data: IPlatform[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
-        return this.call(
-            this.getPlatformsApi(),
-            dataFunc, { ...this.config, ...cfg }
-        )
+        return this.call(this.getPlatformsApi(), dataFunc, cfg)
     }
 
     async getRandomGamesApi(platformId: number | undefined): Promise<IGameOnPlatformDto[]> {
@@ -30,10 +28,7 @@ export class ApiClient extends BaseApiClient {
         dataFunc: (data: IGameOnPlatformDto[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
-        return this.call(
-            this.getRandomGamesApi(platformId),
-            dataFunc, { ...this.config, ...cfg }
-        )
+        return this.call(this.getRandomGamesApi(platformId), dataFunc, cfg)
     }
 
     //// Game Collection
@@ -45,10 +40,7 @@ export class ApiClient extends BaseApiClient {
         dataFunc: (data: ICollectedGamePlatformDto[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
-        return this.call(
-            this.getCollectedGamesApi(),
-            dataFunc, { ...this.config, ...cfg }
-        )
+        return this.call(this.getCollectedGamesApi(), dataFunc, cfg)
     }
 
     async collectGameApi(gameId: number): Promise<void> {
@@ -59,10 +51,7 @@ export class ApiClient extends BaseApiClient {
         dataFunc: () => void = () => undefined,
         cfg?: Partial<Config>
     ) {
-        return this.call(
-            this.collectGameApi(gameId),
-            dataFunc, { ...this.config, ...cfg }
-        )
+        return this.call(this.collectGameApi(gameId), dataFunc, cfg)
     }
 
     async updateCollectedGamePlatformApi(collectedGamePlatform: ICollectedGamePlatformDto): Promise<void> {
@@ -73,10 +62,7 @@ export class ApiClient extends BaseApiClient {
         dataFunc: () => void = () => undefined,
         cfg?: Partial<Config>
     ) {
-        return this.call(
-            this.updateCollectedGamePlatformApi(collectedGamePlatform),
-            dataFunc, { ...this.config, ...cfg }
-        )
+        return this.call(this.updateCollectedGamePlatformApi(collectedGamePlatform), dataFunc, cfg)
     }
 
     async deleteCollectedGamePlatformApi(collectedGamePlatformId: number): Promise<void> {
@@ -87,9 +73,76 @@ export class ApiClient extends BaseApiClient {
         dataFunc: () => void = () => undefined,
         cfg?: Partial<Config>
     ) {
-        return this.call(
-            this.deleteCollectedGamePlatformApi(collectedGamePlatformId),
-            dataFunc, { ...this.config, ...cfg }
-        )
+        return this.call(this.deleteCollectedGamePlatformApi(collectedGamePlatformId), dataFunc, cfg)
+    }
+
+    //// Modifiers
+
+    //// Effect Collection
+
+    async getCollectedEffectsApi(): Promise<ICollectedEffect[]> {
+        return await this.get<ICollectedEffect[]>("/modifiers/effectCollection");
+    }
+    getCollectedEffects(
+        dataFunc: (data: ICollectedEffect[]) => void = this.defaultDataFunc,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.getCollectedEffectsApi(), dataFunc, cfg)
+    }
+
+    async collectEffectApi(effectId: number): Promise<void> {
+        return await this.post(`/modifiers/effectCollection/${effectId}`);
+    }
+    collectEffect(
+        effectId: number,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.collectEffectApi(effectId), dataFunc, cfg)
+    }
+
+    async deleteCollectedEffectApi(collectedEffectId: number): Promise<void> {
+        return await this.delete(`/modifiers/effectCollection/${collectedEffectId}`);
+    }
+    deleteCollectedEffect(
+        collectedEffectId: number,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.deleteCollectedEffectApi(collectedEffectId), dataFunc, cfg)
+    }
+
+    //// Item Collection
+
+    async getCollectedItemsApi(): Promise<ICollectedItem[]> {
+        return await this.get<ICollectedItem[]>("/modifiers/itemCollection");
+    }
+    getCollectedItems(
+        dataFunc: (data: ICollectedItem[]) => void = this.defaultDataFunc,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.getCollectedItemsApi(), dataFunc, cfg)
+    }
+
+    async collectItemApi(itemId: number): Promise<void> {
+        return await this.post(`/modifiers/itemCollection/${itemId}`);
+    }
+    collectItem(
+        itemId: number,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.collectItemApi(itemId), dataFunc, cfg)
+    }
+
+    async deleteCollectedItemApi(collectedItemId: number): Promise<void> {
+        return await this.delete(`/modifiers/itemCollection/${collectedItemId}`);
+    }
+    deleteCollectedItem(
+        collectedItemId: number,
+        dataFunc: () => void = () => undefined,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.deleteCollectedItemApi(collectedItemId), dataFunc, cfg)
     }
 }
