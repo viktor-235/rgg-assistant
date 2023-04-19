@@ -4,20 +4,20 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "collected_effect")
+@Table(name = "collected_item")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CollectedEffect {
+public class CollectedItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @JoinColumn(name = "effect_id", referencedColumnName = "id")
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     @ManyToOne
-    private Effect effect;
+    private Item item;
 }

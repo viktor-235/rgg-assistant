@@ -3,6 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import GameCollectionPage from './pages/GameCollectionPage';
 import GameWheelPage from "./pages/GameWheelPage";
 import MainPage from "./pages/MainPage";
+import ModifierCollectionPage from './pages/ModifierCollectionPage';
 import ModifierWheelPage from "./pages/ModifierWheelPage";
 
 export default function Router() {
@@ -15,6 +16,7 @@ export default function Router() {
                 { path: 'main', element: <MainPage /> },
                 { path: 'modWheel', element: <ModifierWheelPage /> },
                 { path: 'gameWheel', element: <GameWheelPage /> },
+                { path: 'modifierCollection', element: <ModifierCollectionPage /> },
                 { path: 'gameCollection', element: <GameCollectionPage /> }
             ],
         },

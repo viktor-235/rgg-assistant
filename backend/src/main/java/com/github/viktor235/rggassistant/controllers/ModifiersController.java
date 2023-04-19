@@ -1,8 +1,6 @@
 package com.github.viktor235.rggassistant.controllers;
 
-import com.github.viktor235.rggassistant.models.entitys.modifiers.AbstractModifier;
-import com.github.viktor235.rggassistant.models.entitys.modifiers.CollectedEffect;
-import com.github.viktor235.rggassistant.models.entitys.modifiers.Effect;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.*;
 import com.github.viktor235.rggassistant.services.ModifiersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,7 +17,7 @@ import java.util.List;
 public class ModifiersController {
     private final ModifiersService modifiersService;
 
-    /* Abstract modifiers */
+    /* Mixed effects and items  */
 
     @Operation(summary = "Get all modifiers")
     @GetMapping()
@@ -90,5 +88,50 @@ public class ModifiersController {
 
     /* Items */
 
-    // ...
+    @Operation(summary = "Get all items")
+    @GetMapping("/items")
+    public List<Item> getAllItems() {
+        return modifiersService.getAllItems();
+    }
+
+    @Operation(summary = "Get an item by id")
+    @GetMapping("/items/{id}")
+    public Item getItem(
+            @Parameter(description = "item id")
+            @PathVariable int id
+    ) {
+        return modifiersService.getItem(id);
+    }
+
+    @Operation(summary = "Create new item")
+    @PostMapping("/items")
+    public void addItem(@RequestBody Item item) {
+        modifiersService.addItem(item);
+    }
+
+    /* Item collection */
+
+    @Operation(summary = "Get all collected items")
+    @GetMapping("/itemCollection")
+    public List<CollectedItem> getCollectedItems() {
+        return modifiersService.getCollectedItems();
+    }
+
+    @Operation(summary = "Collect an item by id")
+    @PostMapping("/itemCollection/{id}")
+    public void collectItem(
+            @Parameter(description = "item id")
+            @PathVariable int id
+    ) {
+        modifiersService.collectItem(id);
+    }
+
+    @Operation(summary = "Delete an item from collection by id")
+    @DeleteMapping("/itemCollection/{id}")
+    public void deleteCollectedItem(
+            @Parameter(description = "item id")
+            @PathVariable int id
+    ) {
+        modifiersService.deleteCollectedItem(id);
+    }
 }

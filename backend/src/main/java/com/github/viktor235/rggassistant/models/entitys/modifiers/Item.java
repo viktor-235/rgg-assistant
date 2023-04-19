@@ -16,7 +16,7 @@ import java.util.List;
 public class Item extends AbstractModifier {
     @OneToMany(mappedBy = "item")
     @JsonIgnore
-    private List<Inventory> items;
+    private List<CollectedItem> items;
 
     @Override
     public String getModifierType() {
