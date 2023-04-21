@@ -1,6 +1,7 @@
 package com.github.viktor235.rggassistant.services;
 
 import com.github.viktor235.rggassistant.models.entitys.modifiers.*;
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import com.github.viktor235.rggassistant.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,14 @@ public class ModifiersService {
         return modifierRepository.findAll();
     }
 
-    public List<AbstractModifier> getAllRandomized() {
-        return modifierRepository.findAllRandomized();
+    public List<AbstractModifier> getAllRandomized(ModifierType modifierType) {
+        if (modifierType == null) {
+            return modifierRepository.findAllRandomized();// returns wrong count of rows
+        }
+        return switch (modifierType) {
+            case EFFECT -> effectRepository.findAllRandomized();
+            case ITEM -> itemRepository.findAllRandomized();
+        };
     }
 
     public AbstractModifier getRandom() {

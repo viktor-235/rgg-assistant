@@ -1,5 +1,6 @@
 package com.github.viktor235.rggassistant.models.entitys.modifiers;
 
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,9 +24,10 @@ public abstract class AbstractModifier {
     private String description;
 
     /**
-     * @return particular Modifier type (effect, item).
+     * @return particular Modifier type (EFFECT, ITEM).
      * This field includes to json response to help GUI client to recognize Modifier
      */
     @Schema(description = "Field for distinguishing effects from items")
-    public abstract String getModifierType();
+    public abstract ModifierType getModifierType();
+    //TODO add new enum converter
 }

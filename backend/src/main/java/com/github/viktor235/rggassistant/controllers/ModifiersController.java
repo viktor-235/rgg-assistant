@@ -1,6 +1,8 @@
 package com.github.viktor235.rggassistant.controllers;
 
+import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
 import com.github.viktor235.rggassistant.models.entitys.modifiers.*;
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import com.github.viktor235.rggassistant.services.ModifiersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,10 +27,13 @@ public class ModifiersController {
         return modifiersService.getAll();
     }
 
-    @Operation(summary = "Get randomized list of modifiers")
+    @Operation(summary = "Get randomized list of modifiers. Can be filtered by the modifierType")
     @GetMapping("/randomized")
-    public List<AbstractModifier> getAllRandomized() {
-        return modifiersService.getAllRandomized();
+    public List<AbstractModifier> getAllRandomized(
+            @Parameter(description = "id of the platform to filter the result. If not specified, all GamePlatform will be returned")
+            @RequestParam(required = false) ModifierType modifierType
+    ) {
+        return modifiersService.getAllRandomized(modifierType);
     }
 
     @Operation(summary = "Get random modifier")

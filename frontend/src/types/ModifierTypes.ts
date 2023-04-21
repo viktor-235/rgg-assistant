@@ -6,8 +6,8 @@ export interface IAbstractModifier {
 }
 
 export enum ModifierType {
-    ITEM = "item",
-    EFFECT = "effect"
+    ITEM = "ITEM",
+    EFFECT = "EFFECT"
 }
 
 export interface IEffect extends IAbstractModifier {
