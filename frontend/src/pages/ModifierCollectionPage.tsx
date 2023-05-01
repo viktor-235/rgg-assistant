@@ -2,7 +2,7 @@ import { BusinessCenter, Delete } from "@mui/icons-material";
 import { Avatar, Card, CardContent, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect, useState } from "react";
-import { EffectTypeAvatar } from "../components/games/EffectTypeAvatar";
+import { EffectTypeAvatar } from "../components/EffectTypeAvatar";
 import { useApiClient } from "../contexts/ApiClientContext";
 import { ICollectedEffect, ICollectedItem } from "../types/ModifierTypes";
 

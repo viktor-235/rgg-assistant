@@ -1,6 +1,6 @@
 import { Error, SentimentNeutral, SentimentSatisfiedAlt, SentimentVeryDissatisfied } from "@mui/icons-material";
 import { Avatar, AvatarProps } from "@mui/material";
-import { EffectType } from "../../types/ModifierTypes";
+import { EffectType } from "../types/ModifierTypes";
 
 interface EffectTypeProps extends AvatarProps {
     type: EffectType

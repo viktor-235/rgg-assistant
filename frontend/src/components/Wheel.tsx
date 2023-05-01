@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { WheelHandler } from "../helpers/WheelHandler";
 import { IAbstractWheelElement } from "../types/CommonTypes";
 import { IGameOnPlatformDto } from "../types/GameTypes";
-import { IAbstractModifier, ModifierType } from "../types/ModifierTypes";
-import { GameCard, ModifierCard } from "./Card";
+import { IAbstractModifier, IEffect, IItem, ModifierType } from "../types/ModifierTypes";
+import { EffectCard, GameCard, ItemCard } from "./Card";
 
 export enum WheelElementType {
     GAME,
@@ -83,15 +83,15 @@ export function Wheel({ elements, type }: WheelProps) {
             case WheelElementType.MODIFIER:
                 return window?.map((value, index) =>
                     (value as IAbstractModifier).modifierType === ModifierType.EFFECT ?
-                        <ModifierCard
+                        <EffectCard
                             key={index}
-                            modifier={value as IAbstractModifier}
+                            effect={value as IEffect}
                             highlighted={!spinning && index === Math.floor(window.length / 2)}
                         />
                         : (value as IAbstractModifier).modifierType === ModifierType.ITEM ?
-                            <ModifierCard
+                            <ItemCard
                                 key={index}
-                                modifier={value as IAbstractModifier}
+                                item={value as IItem}
                                 highlighted={!spinning && index === Math.floor(window.length / 2)}
                             />
                             : "Unknown modifier type: " + (value as IAbstractModifier).modifierType
