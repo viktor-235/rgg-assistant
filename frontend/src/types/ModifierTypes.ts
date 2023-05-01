@@ -1,5 +1,6 @@
-export interface IAbstractModifier {
-    id: number,
+import { IAbstractWheelElement } from "./CommonTypes"
+
+export interface IAbstractModifier extends IAbstractWheelElement {
     name: string,
     description: string,
     modifierType: ModifierType

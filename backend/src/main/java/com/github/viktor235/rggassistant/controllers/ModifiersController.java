@@ -21,12 +21,6 @@ public class ModifiersController {
 
     /* Mixed effects and items  */
 
-    @Operation(summary = "Get all modifiers")
-    @GetMapping()
-    public List<AbstractModifier> getAll() {
-        return modifiersService.getAll();
-    }
-
     @Operation(summary = "Get randomized list of modifiers. Can be filtered by the modifierType")
     @GetMapping("/randomized")
     public List<AbstractModifier> getAllRandomized(
@@ -34,12 +28,6 @@ public class ModifiersController {
             @RequestParam(required = false) ModifierType modifierType
     ) {
         return modifiersService.getAllRandomized(modifierType);
-    }
-
-    @Operation(summary = "Get random modifier")
-    @GetMapping("/random")
-    public AbstractModifier getRandom() {
-        return modifiersService.getRandom();
     }
 
     /* Effects */

@@ -1,7 +1,15 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, SelectProps, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { Button, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, SelectProps, Stack, Typography } from "@mui/material";
+import Grid from '@mui/system/Unstable_Grid';
+import { useEffect, useState } from "react";
+import ModifierWheel from "../components/Wheel";
 import { useApiClient } from "../contexts/ApiClientContext";
 import { IAbstractModifier, ModifierType } from "../types/ModifierTypes";
+
+enum ExtendedModifierType {
+    ALL = "All",
+    ITEM = "Item",
+    EFFECT = "Effect"
+}
 
 export default function ModifierWheelPage() {
     const apiClient = useApiClient();
@@ -9,20 +17,14 @@ export default function ModifierWheelPage() {
     const [modifiers, setModifiers] = useState<IAbstractModifier[]>([]);
 
     const roll = () => {
-        // const mtype = selectedModifierType as ModifierType
-
         var type: ModifierType | undefined = undefined
         switch (selectedModifierType) {
-            // case ExtendedModifierType.ALL:
-            //     type = undefined
-            //     break
             case ExtendedModifierType.EFFECT:
                 type = ModifierType.EFFECT
                 break
             case ExtendedModifierType.ITEM:
                 type = ModifierType.ITEM
                 break
-
             default:
                 type = undefined
         }
@@ -41,10 +43,10 @@ export default function ModifierWheelPage() {
                             Modifier wheel
                         </Typography>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Modifier type</InputLabel>
-                            <CustomSelect
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                            <InputLabel id="modifier-type-select-label">Modifier type</InputLabel>
+                            <ModifierTypeSelect
+                                labelId="modifier-type-select-label"
+                                id="modifier-type-select"
                                 value={selectedModifierType}
                                 label="Modifier type"
                                 onChange={(event: SelectChangeEvent<ExtendedModifierType>) => {
@@ -54,38 +56,20 @@ export default function ModifierWheelPage() {
                                 <MenuItem value={ExtendedModifierType.ALL}><em>All</em></MenuItem>
                                 <MenuItem value={ExtendedModifierType.EFFECT}>Effect</MenuItem>
                                 <MenuItem value={ExtendedModifierType.ITEM}>Item</MenuItem>
-
-                                {/* {Object.keys(Stooges).map(key => (
-                                    <MenuItem value={key} key={key}>{Stooges[key].name}</MenuItem>
-                                ))} */}
-
-                                {/* {platforms.map((platform) =>
-                                    <MenuItem value={platform.id} key={platform.id}>{platform.name}</MenuItem>
-                                )} */}
-                            </CustomSelect>
+                            </ModifierTypeSelect>
                         </FormControl>
                         <Button onClick={roll} variant="contained" size="large">ROLL</Button>
                     </Stack>
                 </Paper>
             </Grid>
             <Grid sm={7} md={8} lg={9}>
-                {/* <GameWheel games={gameOnPlatforms} /> */}
-
-                {modifiers.map((mod) =>
-                    <p>{mod.name}</p>
-                )}
+                <ModifierWheel modifiers={modifiers} />
             </Grid>
         </Grid>
     )
 }
 
-export enum ExtendedModifierType {
-    ALL = "All",
-    ITEM = "Item",
-    EFFECT = "Effect"
-}
-
-function CustomSelect<ExtendedModifierType>(props: SelectProps<ExtendedModifierType>) {
+function ModifierTypeSelect<ExtendedModifierType>(props: SelectProps<ExtendedModifierType>) {
     return (
         <Select {...props} />
     );

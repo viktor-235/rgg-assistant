@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractModifier {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.TABLE) //TODO change strategy when common sequence will be implemented. Check compatibility with current @Inheritance.
     @Column(name = "id")
     private int id;
 
@@ -29,5 +29,4 @@ public abstract class AbstractModifier {
      */
     @Schema(description = "Field for distinguishing effects from items")
     public abstract ModifierType getModifierType();
-    //TODO add new enum converter
 }
