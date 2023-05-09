@@ -1,12 +1,17 @@
 package com.github.viktor235.rggassistant.services;
 
 import com.github.viktor235.rggassistant.models.entitys.modifiers.*;
-import com.github.viktor235.rggassistant.repositories.*;
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
+import com.github.viktor235.rggassistant.repositories.CollectedEffectRepository;
+import com.github.viktor235.rggassistant.repositories.CollectedItemRepository;
+import com.github.viktor235.rggassistant.repositories.EffectRepository;
+import com.github.viktor235.rggassistant.repositories.ItemRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -15,7 +20,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Transactional
 @RequiredArgsConstructor
 public class ModifiersService {
-    private final ModifierRepository modifierRepository;
     private final EffectRepository effectRepository;
     private final CollectedEffectRepository collectedEffectRepository;
     private final ItemRepository itemRepository;
@@ -23,16 +27,16 @@ public class ModifiersService {
 
     /* Mixed effects and items */
 
-    public List<AbstractModifier> getAll() {
-        return modifierRepository.findAll();
-    }
-
-    public List<AbstractModifier> getAllRandomized() {
-        return modifierRepository.findAllRandomized();
-    }
-
-    public AbstractModifier getRandom() {
-        return modifierRepository.findRandom();
+    public List<AbstractModifier> getAllRandomized(ModifierType modifierType) {
+        if (modifierType == null) {
+            List<AbstractModifier> allRandomized = effectRepository.findAllRandomized();
+            allRandomized.addAll(itemRepository.findAllRandomized());
+            Collections.shuffle(allRandomized);
+            return allRandomized;
+        } else return switch (modifierType) {
+            case EFFECT -> effectRepository.findAllRandomized();
+            case ITEM -> itemRepository.findAllRandomized();
+        };
     }
 
     /* Effects */

@@ -1,5 +1,5 @@
 import { ICollectedGamePlatformDto, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
-import { ICollectedEffect, ICollectedItem } from "../types/ModifierTypes";
+import { IAbstractModifier, ICollectedEffect, ICollectedItem, ModifierType } from "../types/ModifierTypes";
 import { BaseApiClient, Config } from "./BaseApiClient";
 
 export class ApiClient extends BaseApiClient {
@@ -77,6 +77,21 @@ export class ApiClient extends BaseApiClient {
     }
 
     //// Modifiers
+
+    async getRandomModifiersApi(modifierType: ModifierType | undefined): Promise<IAbstractModifier[]> {
+        const query = this.encodeQueryData("/modifiers/randomized",
+            {
+                modifierType: modifierType
+            })
+        return await this.get<IAbstractModifier[]>(query);
+    }
+    getRandomModifiers(
+        modifierType: ModifierType | undefined,
+        dataFunc: (data: IAbstractModifier[]) => void = this.defaultDataFunc,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.getRandomModifiersApi(modifierType), dataFunc, cfg)
+    }
 
     //// Effect Collection
 

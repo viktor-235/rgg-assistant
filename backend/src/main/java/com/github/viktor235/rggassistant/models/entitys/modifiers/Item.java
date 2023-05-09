@@ -1,6 +1,7 @@
 package com.github.viktor235.rggassistant.models.entitys.modifiers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -19,7 +20,7 @@ public class Item extends AbstractModifier {
     private List<CollectedItem> items;
 
     @Override
-    public String getModifierType() {
-        return "item";
+    public ModifierType getModifierType() {
+        return ModifierType.ITEM;
     }
 }

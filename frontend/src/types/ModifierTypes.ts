@@ -1,13 +1,14 @@
-export interface IAbstractModifier {
-    id: number,
+import { IAbstractWheelElement } from "./CommonTypes"
+
+export interface IAbstractModifier extends IAbstractWheelElement {
     name: string,
     description: string,
     modifierType: ModifierType
 }
 
 export enum ModifierType {
-    ITEM = "item",
-    EFFECT = "effect"
+    ITEM = "ITEM",
+    EFFECT = "EFFECT"
 }
 
 export interface IEffect extends IAbstractModifier {

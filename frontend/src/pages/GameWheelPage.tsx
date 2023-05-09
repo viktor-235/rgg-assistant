@@ -2,7 +2,7 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeE
 import { Stack } from "@mui/system";
 import Grid from '@mui/system/Unstable_Grid';
 import { useEffect, useState } from "react";
-import GameWheel from "../components/GameWheel";
+import { GameWheel } from "../components/Wheel";
 import { useApiClient } from "../contexts/ApiClientContext";
 import { IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
 
@@ -32,10 +32,10 @@ export default function GameWheelPage() {
                             Game wheel
                         </Typography>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Platform</InputLabel>
+                            <InputLabel id="platform-select-label">Platform</InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                                labelId="platform-select-label"
+                                id="platform-select"
                                 value={selectedPlatformId}
                                 label="Platform"
                                 onChange={(event: SelectChangeEvent<number>) => {
