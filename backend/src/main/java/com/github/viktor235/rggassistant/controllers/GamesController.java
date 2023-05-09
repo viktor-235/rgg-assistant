@@ -67,7 +67,7 @@ public class GamesController {
     @PostMapping("/gameCollection/unknown")
     public void collectUnknownGamePlatform(
             @Parameter(description = "Platform id")
-            @RequestParam int platformId
+            @RequestParam long platformId
     ) {
         gamesService.collectUnknownGamePlatform(platformId);
     }
@@ -76,7 +76,7 @@ public class GamesController {
     @PostMapping("/gameCollection/{id}")
     public void collectGamePlatform(
             @Parameter(description = "GamePlatform id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         gamesService.collectGamePlatform(id);
     }
@@ -85,7 +85,7 @@ public class GamesController {
     @PutMapping("/gameCollection/{id}")
     public void updateCollectedGamePlatform(
             @Parameter(description = "GamePlatform id")
-            @PathVariable int id,
+            @PathVariable long id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "GamePlatform data to update")
             @RequestBody CollectedGamePlatformDto collectedGamePlatform
     ) {
@@ -100,7 +100,7 @@ public class GamesController {
     @DeleteMapping("/gameCollection/{id}")
     public void deleteCollectedGamePlatform(
             @Parameter(description = "GamePlatform id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         gamesService.deleteCollectedGamePlatform(id);
     }

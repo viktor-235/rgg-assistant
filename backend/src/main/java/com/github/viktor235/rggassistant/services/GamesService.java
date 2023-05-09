@@ -52,7 +52,7 @@ public class GamesService {
         return collectedGameRepository.findAll();
     }
 
-    public void collectGamePlatform(int id) {
+    public void collectGamePlatform(long id) {
         GamePlatform gamePlatform = gamePlatformRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "A GamePlatform with id %s not found".formatted(id)));
         CollectedGamePlatform collectedGamePlatform = CollectedGamePlatform.builder()
@@ -62,7 +62,7 @@ public class GamesService {
         collectedGameRepository.save(collectedGamePlatform);
     }
 
-    public void collectUnknownGamePlatform(int platformId) {
+    public void collectUnknownGamePlatform(long platformId) {
         GamePlatform ugp = getOrCreateUnknownGamePlatform(platformId);
         CollectedGamePlatform collectedGamePlatform = CollectedGamePlatform.builder()
                 .gamePlatform(ugp)
@@ -74,18 +74,18 @@ public class GamesService {
     public void updateCollectedGamePlatform(CollectedGamePlatform updatedCgp) {
         // If new status is 'unknown', set GamePlatform as 'UnknownGamePlatform'
         if (CollectedGameStatus.UNKNOWN == updatedCgp.getStatus()) {
-            int platformId = updatedCgp.getGamePlatform().getPlatform().getId();
+            long platformId = updatedCgp.getGamePlatform().getPlatform().getId();
             GamePlatform unknownGp = getOrCreateUnknownGamePlatform(platformId);
             updatedCgp.setGamePlatform(unknownGp);
         }
         collectedGameRepository.save(updatedCgp);
     }
 
-    public void deleteCollectedGamePlatform(int id) {
+    public void deleteCollectedGamePlatform(long id) {
         collectedGameRepository.deleteById(id);
     }
 
-    public GamePlatform getOrCreateUnknownGamePlatform(int platformId) {
+    public GamePlatform getOrCreateUnknownGamePlatform(long platformId) {
         GamePlatform ugp = gamePlatformRepository.findUnknownGamePlatform(platformId);
         if (ugp == null) {
             Platform platform = platformRepository.findById(platformId).orElseThrow(IllegalArgumentException::new);

@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 @Data
 @Builder
 public class CollectedGamePlatformDto {
-    private int id;
+    private long id;
     private ZonedDateTime collectionDate;
     private CollectedGameStatus status;
     private Duration spentTime;

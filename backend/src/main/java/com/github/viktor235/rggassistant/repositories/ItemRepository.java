@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ItemRepository extends JpaRepository<Item, Integer> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT item FROM Item item ORDER BY RANDOM()")
     List<AbstractModifier> findAllRandomized();
 }

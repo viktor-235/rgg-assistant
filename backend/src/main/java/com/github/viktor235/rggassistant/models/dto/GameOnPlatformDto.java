@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class GameOnPlatformDto {
-    private int id;
+    private long id;
     private Game game;
     private Platform platform;
 }
