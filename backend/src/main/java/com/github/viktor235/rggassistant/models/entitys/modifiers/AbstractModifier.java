@@ -13,7 +13,8 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractModifier {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "modifier_seq_gen")
+    @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq", allocationSize = 1)
     @Column(name = "id")
     private long id;
 
