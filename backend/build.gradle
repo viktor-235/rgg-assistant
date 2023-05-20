@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' // https://springdoc.org/v2/
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     runtimeOnly 'com.h2database:h2'
+    implementation 'org.flywaydb:flyway-core'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

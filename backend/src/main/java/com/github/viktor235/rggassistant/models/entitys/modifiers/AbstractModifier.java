@@ -13,9 +13,10 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractModifier {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE) //TODO change strategy when common sequence will be implemented. Check compatibility with current @Inheritance.
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "modifier_seq_gen")
+    @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq", allocationSize = 1)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name")
     private String name;

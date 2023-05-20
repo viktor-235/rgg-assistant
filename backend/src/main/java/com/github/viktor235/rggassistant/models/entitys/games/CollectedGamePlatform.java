@@ -23,7 +23,7 @@ public class CollectedGamePlatform {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.BIGINT)
-    private int id;
+    private long id;
 
     @Schema(description = "Date the game was added to the collection")
     @Column(name = "collection_date", nullable = false)

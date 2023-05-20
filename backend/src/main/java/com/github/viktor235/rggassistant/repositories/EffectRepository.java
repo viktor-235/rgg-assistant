@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EffectRepository extends JpaRepository<Effect, Integer> {
+public interface EffectRepository extends JpaRepository<Effect, Long> {
     @Query("SELECT effect FROM Effect effect ORDER BY RANDOM()")
     List<AbstractModifier> findAllRandomized();
 }

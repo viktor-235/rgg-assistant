@@ -42,7 +42,7 @@ public class ModifiersController {
     @GetMapping("/effects/{id}")
     public Effect getEffect(
             @Parameter(description = "effect id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         return modifiersService.getEffect(id);
     }
@@ -65,7 +65,7 @@ public class ModifiersController {
     @PostMapping("/effectCollection/{id}")
     public void collectEffect(
             @Parameter(description = "effect id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         modifiersService.collectEffect(id);
     }
@@ -74,7 +74,7 @@ public class ModifiersController {
     @DeleteMapping("/effectCollection/{id}")
     public void deleteCollectedEffect(
             @Parameter(description = "effect id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         modifiersService.deleteCollectedEffect(id);
     }
@@ -91,7 +91,7 @@ public class ModifiersController {
     @GetMapping("/items/{id}")
     public Item getItem(
             @Parameter(description = "item id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         return modifiersService.getItem(id);
     }
@@ -114,7 +114,7 @@ public class ModifiersController {
     @PostMapping("/itemCollection/{id}")
     public void collectItem(
             @Parameter(description = "item id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         modifiersService.collectItem(id);
     }
@@ -123,7 +123,7 @@ public class ModifiersController {
     @DeleteMapping("/itemCollection/{id}")
     public void deleteCollectedItem(
             @Parameter(description = "item id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         modifiersService.deleteCollectedItem(id);
     }

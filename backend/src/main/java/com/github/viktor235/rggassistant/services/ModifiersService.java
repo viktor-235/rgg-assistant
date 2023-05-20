@@ -45,7 +45,7 @@ public class ModifiersService {
         return effectRepository.findAll();
     }
 
-    public Effect getEffect(int id) {
+    public Effect getEffect(long id) {
         return effectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "An effect with id %s not found".formatted(id)));
     }
@@ -60,7 +60,7 @@ public class ModifiersService {
         return collectedEffectRepository.findAll();
     }
 
-    public void collectEffect(int id) {
+    public void collectEffect(long id) {
         Effect effect = effectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "An effect with id %s not found".formatted(id)));
         CollectedEffect collectedEffect = CollectedEffect.builder()
@@ -69,7 +69,7 @@ public class ModifiersService {
         collectedEffectRepository.save(collectedEffect);
     }
 
-    public void deleteCollectedEffect(int id) {
+    public void deleteCollectedEffect(long id) {
         collectedEffectRepository.deleteById(id);
     }
 
@@ -79,7 +79,7 @@ public class ModifiersService {
         return itemRepository.findAll();
     }
 
-    public Item getItem(int id) {
+    public Item getItem(long id) {
         return itemRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "An item with id %s not found".formatted(id)));
     }
@@ -94,7 +94,7 @@ public class ModifiersService {
         return collectedItemRepository.findAll();
     }
 
-    public void collectItem(int id) {
+    public void collectItem(long id) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "An item with id %s not found".formatted(id)));
         CollectedItem collectedItem = CollectedItem.builder()
@@ -103,7 +103,7 @@ public class ModifiersService {
         collectedItemRepository.save(collectedItem);
     }
 
-    public void deleteCollectedItem(int id) {
+    public void deleteCollectedItem(long id) {
         collectedItemRepository.deleteById(id);
     }
 }
