@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.games;
 
 import com.github.viktor235.rggassistant.models.converters.CollectedGameStatusConverter;
 import com.github.viktor235.rggassistant.models.enums.CollectedGameStatus;
@@ -23,7 +23,7 @@ public class CollectedGamePlatform {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.BIGINT)
-    private int id;
+    private long id;
 
     @Schema(description = "Date the game was added to the collection")
     @Column(name = "collection_date", nullable = false)

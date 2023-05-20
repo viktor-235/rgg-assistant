@@ -1,3 +1,5 @@
+import { IAbstractWheelElement } from "./CommonTypes"
+
 export interface IPlatform {
     id: number,
     name: string,
@@ -15,8 +17,7 @@ export interface IGamePlatform {
     id: number
 }
 
-export interface IGameOnPlatformDto {
-    id: number,
+export interface IGameOnPlatformDto extends IAbstractWheelElement {
     game?: IGame,
     platform: IPlatform
 }

@@ -23,18 +23,19 @@ export abstract class BaseApiClient {
     call<T>(
         apiCall: Promise<T>,
         dataFunc: (data: T) => void = console.log,
-        cfg: Config
+        cfg?: Partial<Config>
     ) {
+        const config = { ...this.config, ...cfg }
         return apiCall
             .then(data => {
                 console.log(data);
-                cfg.onLoaded(true);
+                config.onLoaded(true);
                 dataFunc(data);
             })
             .catch((err) => {
                 console.error(err);
-                cfg.onLoaded(true);
-                cfg.onError(err);
+                config.onLoaded(true);
+                config.onError(err);
             });
     }
 

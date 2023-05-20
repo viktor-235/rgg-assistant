@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.games;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -16,7 +16,7 @@ public class Platform {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name", nullable = false)
     private String name;

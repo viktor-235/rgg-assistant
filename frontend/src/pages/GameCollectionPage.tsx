@@ -40,8 +40,8 @@ export default function GameCollectionPage() {
     }
 
     async function deleteGame(gamePlatform: ICollectedGamePlatformDto): Promise<void> {
-        await apiClient.deleteCollectedGamePlatform(gamePlatform.id);
-        return apiClient.getCollectedGames(setCollectedGames);
+        await apiClient.deleteCollectedGamePlatform(gamePlatform.id)
+            .then(() => apiClient.getCollectedGames(setCollectedGames));
     }
 
     return (

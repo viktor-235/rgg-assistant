@@ -1,8 +1,8 @@
 package com.github.viktor235.rggassistant.controllers;
 
-import com.github.viktor235.rggassistant.models.AbstractModifier;
-import com.github.viktor235.rggassistant.models.CollectedEffect;
-import com.github.viktor235.rggassistant.models.Effect;
+import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
+import com.github.viktor235.rggassistant.models.entitys.modifiers.*;
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import com.github.viktor235.rggassistant.services.ModifiersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,24 +19,15 @@ import java.util.List;
 public class ModifiersController {
     private final ModifiersService modifiersService;
 
-    /* Abstract modifiers */
+    /* Mixed effects and items  */
 
-    @Operation(summary = "Get all modifiers")
-    @GetMapping()
-    public List<AbstractModifier> getAll() {
-        return modifiersService.getAll();
-    }
-
-    @Operation(summary = "Get randomized list of modifiers")
+    @Operation(summary = "Get randomized list of modifiers. Can be filtered by the modifierType")
     @GetMapping("/randomized")
-    public List<AbstractModifier> getAllRandomized() {
-        return modifiersService.getAllRandomized();
-    }
-
-    @Operation(summary = "Get random modifier")
-    @GetMapping("/random")
-    public AbstractModifier getRandom() {
-        return modifiersService.getRandom();
+    public List<AbstractModifier> getAllRandomized(
+            @Parameter(description = "id of the platform to filter the result. If not specified, all GamePlatform will be returned")
+            @RequestParam(required = false) ModifierType modifierType
+    ) {
+        return modifiersService.getAllRandomized(modifierType);
     }
 
     /* Effects */
@@ -51,7 +42,7 @@ public class ModifiersController {
     @GetMapping("/effects/{id}")
     public Effect getEffect(
             @Parameter(description = "effect id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         return modifiersService.getEffect(id);
     }
@@ -74,7 +65,7 @@ public class ModifiersController {
     @PostMapping("/effectCollection/{id}")
     public void collectEffect(
             @Parameter(description = "effect id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         modifiersService.collectEffect(id);
     }
@@ -83,12 +74,57 @@ public class ModifiersController {
     @DeleteMapping("/effectCollection/{id}")
     public void deleteCollectedEffect(
             @Parameter(description = "effect id")
-            @PathVariable int id
+            @PathVariable long id
     ) {
         modifiersService.deleteCollectedEffect(id);
     }
 
     /* Items */
 
-    // ...
+    @Operation(summary = "Get all items")
+    @GetMapping("/items")
+    public List<Item> getAllItems() {
+        return modifiersService.getAllItems();
+    }
+
+    @Operation(summary = "Get an item by id")
+    @GetMapping("/items/{id}")
+    public Item getItem(
+            @Parameter(description = "item id")
+            @PathVariable long id
+    ) {
+        return modifiersService.getItem(id);
+    }
+
+    @Operation(summary = "Create new item")
+    @PostMapping("/items")
+    public void addItem(@RequestBody Item item) {
+        modifiersService.addItem(item);
+    }
+
+    /* Item collection */
+
+    @Operation(summary = "Get all collected items")
+    @GetMapping("/itemCollection")
+    public List<CollectedItem> getCollectedItems() {
+        return modifiersService.getCollectedItems();
+    }
+
+    @Operation(summary = "Collect an item by id")
+    @PostMapping("/itemCollection/{id}")
+    public void collectItem(
+            @Parameter(description = "item id")
+            @PathVariable long id
+    ) {
+        modifiersService.collectItem(id);
+    }
+
+    @Operation(summary = "Delete an item from collection by id")
+    @DeleteMapping("/itemCollection/{id}")
+    public void deleteCollectedItem(
+            @Parameter(description = "item id")
+            @PathVariable long id
+    ) {
+        modifiersService.deleteCollectedItem(id);
+    }
 }

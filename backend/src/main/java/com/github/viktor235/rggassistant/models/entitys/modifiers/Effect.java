@@ -1,8 +1,9 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.modifiers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.viktor235.rggassistant.models.converters.EffectTypeConverter;
 import com.github.viktor235.rggassistant.models.enums.EffectType;
+import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -28,7 +29,7 @@ public class Effect extends AbstractModifier {
     private List<CollectedEffect> collectedEffects;
 
     @Override
-    public String getModifierType() {
-        return "effect";
+    public ModifierType getModifierType() {
+        return ModifierType.EFFECT;
     }
 }

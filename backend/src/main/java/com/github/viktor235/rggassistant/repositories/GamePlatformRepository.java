@@ -1,6 +1,6 @@
 package com.github.viktor235.rggassistant.repositories;
 
-import com.github.viktor235.rggassistant.models.GamePlatform;
+import com.github.viktor235.rggassistant.models.entitys.games.GamePlatform;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GamePlatformRepository extends JpaRepository<GamePlatform, Integer> {
-     List<GamePlatform> findAllByPlatform_Id(int platformId);
+public interface GamePlatformRepository extends JpaRepository<GamePlatform, Long> {
+     List<GamePlatform> findAllByPlatform_Id(long platformId);
 
      @Query("""
              SELECT gp FROM GamePlatform gp
@@ -22,12 +22,12 @@ public interface GamePlatformRepository extends JpaRepository<GamePlatform, Inte
              WHERE gp.platform.id = :platformId
              ORDER BY RANDOM()
              """)
-     List<GamePlatform> findAllRandomized(int platformId);
+     List<GamePlatform> findAllRandomized(long platformId);
 
      @Query("""
              SELECT gp FROM GamePlatform gp
              WHERE gp.game = null
              AND gp.platform.id = :platformId
              """)
-     GamePlatform findUnknownGamePlatform(int platformId);
+     GamePlatform findUnknownGamePlatform(long platformId);
 }

@@ -1,4 +1,4 @@
-package com.github.viktor235.rggassistant.models;
+package com.github.viktor235.rggassistant.models.entitys.games;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name", nullable = false)
     private String name;

@@ -18,6 +18,11 @@ export default function AppDrawer() {
             icon: <VideogameAsset />
         },
         {
+            title: 'Modifier Collection',
+            path: '/modifierCollection',
+            icon: <ListAlt />
+        },
+        {
             title: 'Game Collection',
             path: '/gameCollection',
             icon: <ListAlt />

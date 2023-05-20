@@ -1,6 +1,6 @@
 package com.github.viktor235.rggassistant.mappers;
 
-import com.github.viktor235.rggassistant.models.GamePlatform;
+import com.github.viktor235.rggassistant.models.entitys.games.GamePlatform;
 import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
 import org.mapstruct.Mapper;
 
