@@ -1,17 +1,22 @@
+-- liquibase formatted sql
+
 -- Games
 
+-- changeset viktor235:1689541128614-1
 CREATE TABLE game (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   info_link VARCHAR(255)
 );
 
+-- changeset viktor235:1689541128614-2
 CREATE TABLE platform (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   release_date TIMESTAMP WITH TIME ZONE
 );
 
+-- changeset viktor235:1689541128614-3
 CREATE TABLE game_platform (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   game_id BIGINT,
@@ -20,6 +25,7 @@ CREATE TABLE game_platform (
 ALTER TABLE game_platform ADD CONSTRAINT FK_GAME_PLATFORM_ON_GAME FOREIGN KEY (game_id) REFERENCES game (id);
 ALTER TABLE game_platform ADD CONSTRAINT FK_GAME_PLATFORM_ON_PLATFORM FOREIGN KEY (platform_id) REFERENCES platform (id);
 
+-- changeset viktor235:1689541128614-4
 CREATE TABLE collected_game_platform (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   collection_date TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -32,8 +38,10 @@ ALTER TABLE collected_game_platform ADD CONSTRAINT FK_COLLECTED_GAME_PLATFORM_ON
 
 -- Effects
 
+-- changeset viktor235:1689541128614-5
 CREATE SEQUENCE modifier_seq START WITH 1 INCREMENT BY 1;
 
+-- changeset viktor235:1689541128614-6
 CREATE TABLE effect (
   id BIGINT DEFAULT NEXT VALUE FOR modifier_seq NOT NULL PRIMARY KEY,
   name VARCHAR(255),
@@ -41,6 +49,7 @@ CREATE TABLE effect (
   type VARCHAR(255)
 );
 
+-- changeset viktor235:1689541128614-7
 CREATE TABLE collected_effect (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   effect_id BIGINT
@@ -49,12 +58,14 @@ ALTER TABLE collected_effect ADD CONSTRAINT FK_COLLECTED_EFFECT_ON_EFFECT FOREIG
 
 -- Items
 
+-- changeset viktor235:1689541128614-8
 CREATE TABLE item (
   id BIGINT DEFAULT NEXT VALUE FOR modifier_seq NOT NULL PRIMARY KEY,
   name VARCHAR(255),
   description VARCHAR(1023)
 );
 
+-- changeset viktor235:1689541128614-9
 CREATE TABLE collected_item (
   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   item_id BIGINT

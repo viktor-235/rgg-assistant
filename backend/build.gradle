@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "org.liquibase.gradle" version "2.2.0"
 //    id 'org.springdoc.openapi-gradle-plugin' version '1.6.0' // Disabled because of conflict with 'processFrontendResources'
 }
 
@@ -35,14 +36,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' // https://springdoc.org/v2/
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    runtimeOnly 'com.h2database:h2'
-    implementation 'org.flywaydb:flyway-core'
+    implementation 'com.h2database:h2'
+    implementation 'org.liquibase:liquibase-core'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     compileOnly 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.16.1'
+    liquibaseRuntime 'info.picocli:picocli:4.6.1'
+    liquibaseRuntime 'com.h2database:h2' // Check it. Maybe wrong driver/connector
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -63,6 +68,88 @@ tasks.register('processFrontendResources', Copy) {
 }
 tasks.named('processResources') {
     dependsOn tasks.named('processFrontendResources')
+}
+
+task changelogBefore(type: JavaExec) {
+    group = "liquibase"
+
+    classpath sourceSets.main.runtimeClasspath
+    main = "liquibase.integration.commandline.Main"
+
+    args "--changeLogFile=../changelog-diff/dml-before.h2.sql"
+    args "--driver=org.h2.Driver"
+    args "--url=jdbc:h2:file:../db/rgg"
+    args "--username=sa"
+    args "--diffTypes=data"
+    args "generateChangelog"
+}
+
+task updateDB(type: JavaExec) {
+    group = "liquibase"
+
+    classpath sourceSets.main.runtimeClasspath
+    main = "liquibase.integration.commandline.Main"
+
+    args "--sqlFile=../changelog-diff/sql.h2.sql"
+    args "--driver=org.h2.Driver"
+    args "--url=jdbc:h2:file:../db/rgg"
+    args "--username=sa"
+    args "executeSql"
+}
+
+task changelogAfter(type: JavaExec) {
+    group = "liquibase"
+
+    classpath sourceSets.main.runtimeClasspath
+    main = "liquibase.integration.commandline.Main"
+
+    args "--changeLogFile=../changelog-diff/dml-after.h2.sql"
+    args "--driver=org.h2.Driver"
+    args "--url=jdbc:h2:file:../db/rgg"
+    args "--username=sa"
+    args "--diffTypes=data"
+    args "generateChangelog"
+}
+
+//task changelogBefore(type: Exec) {
+//    commandLine './gradlew.bat', 'generateChangelog', '-PrunList=dmlBefore'
+//}
+
+//task changelogAfter(type: Exec) {
+//    commandLine 'gradlew', 'generateChangelog', '-PrunList=dmlAfter'
+//}
+
+liquibase {
+    activities {
+        main {
+            changelogFile 'src/main/resources/db/changelog/change2.h2.sql'
+            driver 'org.h2.Driver'
+            url 'jdbc:h2:file:../db/rgg'
+            username 'sa'
+            diffTypes 'catalogs, tables, views, columns, indexes, foreignkeys, primarykeys, uniqueconstraints'
+//            diffTypes 'data'
+
+            referenceUrl 'jdbc:h2:file:../db/rgg2'
+            referenceUsername 'sa'
+        }
+        dmlBefore {
+            changelogFile 'src/main/resources/db/changelog/diff/dml-before.h2.sql'
+            driver 'org.h2.Driver'
+            url 'jdbc:h2:file:../db/rgg'
+            username 'sa'
+            diffTypes 'data'
+//            dataOutputDirectory 'src/main/resources/db/changelog/diff'
+        }
+        dmlAfter {
+            changelogFile 'src/main/resources/db/changelog/diff/dml-after.h2.sql'
+            driver 'org.h2.Driver'
+            url 'jdbc:h2:file:../db/rgg'
+            username 'sa'
+            diffTypes 'data'
+//            dataOutputDirectory 'src/main/resources/db/changelog/diff'
+        }
+    }
+    runList = project.hasProperty("runList") ? project.runList : 'main'
 }
 
 tasks.named('test') {
