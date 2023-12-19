@@ -5,6 +5,7 @@ import GameWheelPage from "./pages/GameWheelPage";
 import MainPage from "./pages/MainPage";
 import ModifierCollectionPage from './pages/ModifierCollectionPage';
 import ModifierWheelPage from "./pages/ModifierWheelPage";
+import GamePage from './pages/GamePage';
 
 export default function Router() {
     const routes = useRoutes([
@@ -17,7 +18,8 @@ export default function Router() {
                 { path: 'modWheel', element: <ModifierWheelPage /> },
                 { path: 'gameWheel', element: <GameWheelPage /> },
                 { path: 'modifierCollection', element: <ModifierCollectionPage /> },
-                { path: 'gameCollection', element: <GameCollectionPage /> }
+                { path: 'gameCollection', element: <GameCollectionPage /> },
+                { path: 'games', element: <GamePage /> }
             ],
         },
         // {

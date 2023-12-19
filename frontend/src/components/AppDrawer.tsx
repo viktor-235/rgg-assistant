@@ -26,6 +26,11 @@ export default function AppDrawer() {
             title: 'Game Collection',
             path: '/gameCollection',
             icon: <ListAlt />
+        },
+        {
+            title: 'Games',
+            path: '/games',
+            icon: <VideogameAsset />
         }
     ];
 

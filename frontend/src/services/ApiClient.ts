@@ -1,4 +1,4 @@
-import { ICollectedGamePlatformDto, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
+import { ICollectedGamePlatformDto, IGame, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
 import { IAbstractModifier, ICollectedEffect, ICollectedItem, ModifierType } from "../types/ModifierTypes";
 import { BaseApiClient, Config } from "./BaseApiClient";
 
@@ -29,6 +29,16 @@ export class ApiClient extends BaseApiClient {
         cfg?: Partial<Config>
     ) {
         return this.call(this.getRandomGamesApi(platformId), dataFunc, cfg)
+    }
+
+    async getGamesApi(): Promise<IGame[]> {
+        return await this.get<IGame[]>("/games");
+    }
+    getGames(
+        dataFunc: (data: IGame[]) => void = this.defaultDataFunc,
+        cfg?: Partial<Config>
+    ) {
+        return this.call(this.getGamesApi(), dataFunc, cfg)
     }
 
     //// Game Collection
