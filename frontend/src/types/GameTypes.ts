@@ -3,18 +3,25 @@ import { IAbstractWheelElement } from "./CommonTypes"
 export interface IPlatform {
     id: number,
     name: string,
-    releaseDate?: Date
+    shortName: string,
+    releaseDate?: Date,
+    sourceType: SourceType,
+    sourceId: string
 }
 
 export interface IGame {
     id: number,
     name: string,
-    infoLink?: string
+    infoLink?: string,
+    sourceType: SourceType,
+    sourceId: string,
     gamePlatform: IGamePlatform
 }
 
 export interface IGamePlatform {
-    id: number
+    id: number,
+    sourceType: SourceType,
+    sourceId: string
 }
 
 export interface IGameOnPlatformDto extends IAbstractWheelElement {
@@ -36,4 +43,9 @@ export enum CollectedGameStatus {
     NEW = "NEW",
     DROPPED = "DROPPED",
     DONE = "DONE"
+}
+
+export enum SourceType {
+    MANUAL = "MANUAL",
+    IGDB = "IGDB"
 }
