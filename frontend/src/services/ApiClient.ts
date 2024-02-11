@@ -4,6 +4,8 @@ import { BaseApiClient, Config } from "./BaseApiClient";
 
 export class ApiClient extends BaseApiClient {
 
+    protected baseUrl="api/"
+
     //// Games
 
     async getPlatformsApi(): Promise<IPlatform[]> {

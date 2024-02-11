@@ -1,6 +1,5 @@
 package com.github.viktor235.rggassistant.controllers;
 
-import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
 import com.github.viktor235.rggassistant.models.entitys.modifiers.*;
 import com.github.viktor235.rggassistant.models.enums.ModifierType;
 import com.github.viktor235.rggassistant.services.ModifiersService;
@@ -15,7 +14,7 @@ import java.util.List;
 @Tag(name = "Play modifiers (effects and items)", description = "Access the modifier section and modifier wheel. Modifier is an effect or an item which modifies the play")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("modifiers")
+@RequestMapping("api/modifiers")
 public class ModifiersController {
     private final ModifiersService modifiersService;
 
