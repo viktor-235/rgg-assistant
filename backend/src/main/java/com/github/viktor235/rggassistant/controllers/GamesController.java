@@ -20,7 +20,7 @@ import java.util.Objects;
 @Tag(name = "Games and platforms", description = "Access the game section and game wheel")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("games")
+@RequestMapping("api/games")
 public class GamesController {
     private final GamesService gamesService;
     private final GameOnPlatformMapper gameOnPlatformMapper;
