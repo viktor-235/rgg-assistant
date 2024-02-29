@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import CollectedGameDialog from "../components/games/CollectedGameDialog";
 import { CollectedGameAvatar } from "../components/games/CollectedGameStatus";
 import { useApiClient } from "../contexts/ApiClientContext";
-import { ICollectedGamePlatformDto, IPlatform } from "../types/GameTypes";
+import { CollectedGamePlatformDto, PlatformDto } from "../types/GameTypes";
 
 export default function GameCollectionPage() {
     const apiClient = useApiClient();
-    const [platforms, setPlatforms] = useState<Array<IPlatform>>([]);
-    const [collectedGames, setCollectedGames] = useState<Array<ICollectedGamePlatformDto>>([]);
-    const [gameMap, setGameMap] = useState<{ [id: string]: Array<ICollectedGamePlatformDto> }>({});
-    const [selectedGame, setSelectedGame] = useState<ICollectedGamePlatformDto | undefined>(undefined);
+    const [platforms, setPlatforms] = useState<Array<PlatformDto>>([]);
+    const [collectedGames, setCollectedGames] = useState<Array<CollectedGamePlatformDto>>([]);
+    const [gameMap, setGameMap] = useState<{ [id: string]: Array<CollectedGamePlatformDto> }>({});
+    const [selectedGame, setSelectedGame] = useState<CollectedGamePlatformDto | undefined>(undefined);
 
     useEffect(() => {
         apiClient.getPlatforms(setPlatforms).then(() => {
@@ -23,7 +23,7 @@ export default function GameCollectionPage() {
         if (platforms.length === 0) return
 
         setGameMap({})
-        var data: { [id: string]: Array<ICollectedGamePlatformDto> } = {}
+        var data: { [id: string]: Array<CollectedGamePlatformDto> } = {}
         platforms.map((platform) => {
             data[platform.name] = []
         })
@@ -39,7 +39,7 @@ export default function GameCollectionPage() {
         return apiClient.getCollectedGames(setCollectedGames)
     }
 
-    async function deleteGame(gamePlatform: ICollectedGamePlatformDto): Promise<void> {
+    async function deleteGame(gamePlatform: CollectedGamePlatformDto): Promise<void> {
         await apiClient.deleteCollectedGamePlatform(gamePlatform.id)
             .then(() => apiClient.getCollectedGames(setCollectedGames));
     }
@@ -47,7 +47,7 @@ export default function GameCollectionPage() {
     return (
         <>
             <Grid container spacing={2}>
-                {Object.entries(gameMap).map(([platformName, gamePlatforms]) => (
+                {Object.entries(gameMap).map(([platformName, cgps]) => (
                     <Grid xs={12} sm={12} md={6} lg={4} key={platformName}>
                         <Card variant="outlined">
                             <CardContent sx={{ paddingBottom: 0 }}>
@@ -56,17 +56,17 @@ export default function GameCollectionPage() {
                                 </Typography>
                             </CardContent>
                             <List sx={{ width: '100%', bgcolor: 'background.paper' }} >
-                                {gamePlatforms.map((gamePlatform) =>
-                                    <ListItem key={gamePlatform.id} disablePadding>
+                                {cgps.map((cgp) =>
+                                    <ListItem key={cgp.id} disablePadding>
                                         <ListItemButton dense onClick={() => {
-                                            setSelectedGame(gamePlatform)
+                                            setSelectedGame(cgp)
                                         }} >
                                             <ListItemAvatar>
-                                                <CollectedGameAvatar status={gamePlatform.status} />
+                                                <CollectedGameAvatar status={cgp.status} />
                                             </ListItemAvatar>
                                             <ListItemText
-                                                primary={gamePlatform.gamePlatform.game?.name || 'Unknown'}
-                                                secondary={gamePlatform.comment}
+                                                primary={cgp.gamePlatform.game?.name || 'Unknown'}
+                                                secondary={cgp.comment}
                                             />
                                         </ListItemButton>
                                     </ListItem>

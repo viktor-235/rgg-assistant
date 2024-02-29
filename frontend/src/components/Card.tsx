@@ -1,29 +1,29 @@
 import { BusinessCenter, InfoOutlined } from "@mui/icons-material";
 import { Avatar, Button, Card, CardActions, CardHeader, Tooltip, Typography } from "@mui/material";
 import { useApiClient } from "../contexts/ApiClientContext";
-import { IGameOnPlatformDto } from "../types/GameTypes";
+import { GamePlatformDto } from "../types/GameTypes";
 import { IEffect, IItem } from "../types/ModifierTypes";
 import { EffectTypeAvatar } from "./EffectTypeAvatar";
 
 // Game card
 
 interface GameCardProps {
-    gameOnPlatform: IGameOnPlatformDto;
+    gamePlatform: GamePlatformDto;
     highlighted: boolean
 }
 
-export function GameCard({ gameOnPlatform, highlighted }: GameCardProps) {
+export function GameCard({ gamePlatform, highlighted }: GameCardProps) {
     const apiClient = useApiClient();
 
-    function collectGame(gameOnPlatform: IGameOnPlatformDto): Promise<void> {
+    function collectGame(gameOnPlatform: GamePlatformDto): Promise<void> {
         return apiClient.collectGame(gameOnPlatform.id)
     }
 
     return (
-        <CommonCard<IGameOnPlatformDto>
-            value={gameOnPlatform}
-            title={gameOnPlatform.game?.name || 'Unknown'}
-            infoLink={gameOnPlatform.game?.infoLink}
+        <CommonCard<GamePlatformDto>
+            value={gamePlatform}
+            title={gamePlatform.game?.name || 'Unknown'}
+            infoLink={gamePlatform.game?.infoLink}
             highlighted={highlighted}
             onCollect={collectGame}
         />

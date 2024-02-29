@@ -1,10 +1,13 @@
 package com.github.viktor235.rggassistant.services;
 
+import com.github.viktor235.rggassistant.mappers.GameMapper;
+import com.github.viktor235.rggassistant.models.dto.CollectedGamePlatformUpdateDto;
 import com.github.viktor235.rggassistant.models.entitys.games.CollectedGamePlatform;
 import com.github.viktor235.rggassistant.models.entitys.games.Game;
 import com.github.viktor235.rggassistant.models.entitys.games.GamePlatform;
 import com.github.viktor235.rggassistant.models.entitys.games.Platform;
 import com.github.viktor235.rggassistant.models.enums.CollectedGameStatus;
+import com.github.viktor235.rggassistant.models.enums.SourceType;
 import com.github.viktor235.rggassistant.repositories.CollectedGameRepository;
 import com.github.viktor235.rggassistant.repositories.GamePlatformRepository;
 import com.github.viktor235.rggassistant.repositories.GameRepository;
@@ -27,6 +30,7 @@ public class GamesService {
     private final GameRepository gameRepository;
     private final GamePlatformRepository gamePlatformRepository;
     private final CollectedGameRepository collectedGameRepository;
+    private final GameMapper gameMapper;
 
     /* Platforms */
 
@@ -71,14 +75,21 @@ public class GamesService {
         collectedGameRepository.save(collectedGamePlatform);
     }
 
-    public void updateCollectedGamePlatform(CollectedGamePlatform updatedCgp) {
+    public void updateCollectedGamePlatform(CollectedGamePlatformUpdateDto cgpUpdate) {
+        CollectedGamePlatform cgpDb = collectedGameRepository.findById(cgpUpdate.getId())
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "A CollectedGamePlatform with id %s not found".formatted(cgpUpdate.getId())));
+
+        GamePlatform gamePlatform = gamePlatformRepository.findById(cgpUpdate.getGamePlatformId())
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "A GamePlatform with id %s not found".formatted(cgpUpdate.getGamePlatformId())));
+
         // If new status is 'unknown', set GamePlatform as 'UnknownGamePlatform'
-        if (CollectedGameStatus.UNKNOWN == updatedCgp.getStatus()) {
-            long platformId = updatedCgp.getGamePlatform().getPlatform().getId();
-            GamePlatform unknownGp = getOrCreateUnknownGamePlatform(platformId);
-            updatedCgp.setGamePlatform(unknownGp);
+        if (CollectedGameStatus.UNKNOWN == cgpUpdate.getStatus()) {
+            long platformId = gamePlatform.getPlatform().getId();
+            gamePlatform = getOrCreateUnknownGamePlatform(platformId);
         }
-        collectedGameRepository.save(updatedCgp);
+
+        gameMapper.updateCollectedGamePlatform(cgpDb, cgpUpdate, gamePlatform);
+        collectedGameRepository.save(cgpDb);
     }
 
     public void deleteCollectedGamePlatform(long id) {
@@ -92,6 +103,7 @@ public class GamesService {
             return gamePlatformRepository.save(
                     GamePlatform.builder()
                             .platform(platform)
+                            .sourceType(SourceType.MANUAL)
                             .build()
             );
         } else

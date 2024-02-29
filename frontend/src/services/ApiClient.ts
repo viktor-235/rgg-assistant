@@ -1,4 +1,10 @@
-import { ICollectedGamePlatformDto, IGame, IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
+import {
+    CollectedGamePlatformDto,
+    CollectedGamePlatformUpdateDto,
+    GameDto,
+    GamePlatformDto,
+    PlatformDto
+} from "../types/GameTypes";
 import { IAbstractModifier, ICollectedEffect, ICollectedItem, ModifierType } from "../types/ModifierTypes";
 import { BaseApiClient, Config } from "./BaseApiClient";
 
@@ -8,36 +14,36 @@ export class ApiClient extends BaseApiClient {
 
     //// Games
 
-    async getPlatformsApi(): Promise<IPlatform[]> {
-        return await this.get<IPlatform[]>("/games/platforms");
+    async getPlatformsApi(): Promise<PlatformDto[]> {
+        return await this.get<PlatformDto[]>("/games/platforms");
     }
     getPlatforms(
-        dataFunc: (data: IPlatform[]) => void = this.defaultDataFunc,
+        dataFunc: (data: PlatformDto[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
         return this.call(this.getPlatformsApi(), dataFunc, cfg)
     }
 
-    async getRandomGamesApi(platformId: number | undefined): Promise<IGameOnPlatformDto[]> {
+    async getRandomGamesApi(platformId: number | undefined): Promise<GamePlatformDto[]> {
         const query = this.encodeQueryData("/games/randomized",
             {
                 platformId: platformId
             })
-        return await this.get<IGameOnPlatformDto[]>(query);
+        return await this.get<GamePlatformDto[]>(query);
     }
     getRandomGames(
         platformId: number | undefined,
-        dataFunc: (data: IGameOnPlatformDto[]) => void = this.defaultDataFunc,
+        dataFunc: (data: GamePlatformDto[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
         return this.call(this.getRandomGamesApi(platformId), dataFunc, cfg)
     }
 
-    async getGamesApi(): Promise<IGame[]> {
-        return await this.get<IGame[]>("/games");
+    async getGamesApi(): Promise<GameDto[]> {
+        return await this.get<GameDto[]>("/games");
     }
     getGames(
-        dataFunc: (data: IGame[]) => void = this.defaultDataFunc,
+        dataFunc: (data: GameDto[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
         return this.call(this.getGamesApi(), dataFunc, cfg)
@@ -45,11 +51,11 @@ export class ApiClient extends BaseApiClient {
 
     //// Game Collection
 
-    async getCollectedGamesApi(): Promise<ICollectedGamePlatformDto[]> {
-        return await this.get<ICollectedGamePlatformDto[]>("/games/gameCollection");
+    async getCollectedGamesApi(): Promise<CollectedGamePlatformDto[]> {
+        return await this.get<CollectedGamePlatformDto[]>("/games/gameCollection");
     }
     getCollectedGames(
-        dataFunc: (data: ICollectedGamePlatformDto[]) => void = this.defaultDataFunc,
+        dataFunc: (data: CollectedGamePlatformDto[]) => void = this.defaultDataFunc,
         cfg?: Partial<Config>
     ) {
         return this.call(this.getCollectedGamesApi(), dataFunc, cfg)
@@ -66,11 +72,11 @@ export class ApiClient extends BaseApiClient {
         return this.call(this.collectGameApi(gameId), dataFunc, cfg)
     }
 
-    async updateCollectedGamePlatformApi(collectedGamePlatform: ICollectedGamePlatformDto): Promise<void> {
+    async updateCollectedGamePlatformApi(collectedGamePlatform: CollectedGamePlatformUpdateDto): Promise<void> {
         return await this.put(`/games/gameCollection/${collectedGamePlatform.id}`, collectedGamePlatform);
     }
     updateCollectedGamePlatform(
-        collectedGamePlatform: ICollectedGamePlatformDto,
+        collectedGamePlatform: CollectedGamePlatformUpdateDto,
         dataFunc: () => void = () => undefined,
         cfg?: Partial<Config>
     ) {

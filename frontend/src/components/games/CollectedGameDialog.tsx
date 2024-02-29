@@ -3,11 +3,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
 import { useState } from "react";
 import MaskedInput, { PipeConfig } from "react-text-mask";
 import { useApiClient } from "../../contexts/ApiClientContext";
-import { CollectedGameStatus, ICollectedGamePlatformDto } from "../../types/GameTypes";
-import { CollectedGameAvatar, CollectedGameStatusText } from "../games/CollectedGameStatus";
+import {CollectedGameStatus, CollectedGamePlatformDto, CollectedGamePlatformUpdateDto} from "../../types/GameTypes";
+import { CollectedGameAvatar, CollectedGameStatusText } from "./CollectedGameStatus";
 
 interface CollectedGameDialogProps {
-    game: ICollectedGamePlatformDto;
+    game: CollectedGamePlatformDto;
     onClose(): void;
     onUpdate(): Promise<void>;
     onDelete(): Promise<void>;
@@ -15,7 +15,7 @@ interface CollectedGameDialogProps {
 
 export default function CollectedGameDialog({ game, onClose, onUpdate, onDelete }: CollectedGameDialogProps) {
     const apiClient = useApiClient();
-    const [changedData, setChangedData] = useState<ICollectedGamePlatformDto>(game);
+    const [changedData, setChangedData] = useState<CollectedGamePlatformDto>(game);
     const [changed, setChanged] = useState<boolean>(false);
 
     function handleSpentTimeChanged(conformedValue: string, config: PipeConfig) {
@@ -44,7 +44,15 @@ export default function CollectedGameDialog({ game, onClose, onUpdate, onDelete 
 
     const handleSave = () => {
         if (changed) {
-            apiClient.updateCollectedGamePlatform(changedData)
+            const cgpUpdate: CollectedGamePlatformUpdateDto = {
+                id: changedData.id,
+                collectionDate: changedData.collectionDate,
+                status: changedData.status,
+                spentTime: changedData.spentTime,
+                comment: changedData.comment,
+                gamePlatformId: changedData.gamePlatform.id
+            };
+            apiClient.updateCollectedGamePlatform(cgpUpdate)
                 .then(() => {
                     return onUpdate()
                 })

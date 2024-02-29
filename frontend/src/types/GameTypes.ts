@@ -1,6 +1,6 @@
 import { IAbstractWheelElement } from "./CommonTypes"
 
-export interface IPlatform {
+export interface PlatformDto {
     id: number,
     name: string,
     shortName: string,
@@ -9,33 +9,45 @@ export interface IPlatform {
     sourceId: string
 }
 
-export interface IGame {
+export interface GameDto {
     id: number,
     name: string,
     infoLink?: string,
     sourceType: SourceType,
     sourceId: string,
-    gamePlatform: IGamePlatform
+    platformsOfGame: PlatformOfGameDto[]
 }
 
-export interface IGamePlatform {
+export interface PlatformOfGameDto {
     id: number,
+    platform: PlatformDto,
     sourceType: SourceType,
     sourceId: string
 }
 
-export interface IGameOnPlatformDto extends IAbstractWheelElement {
-    game?: IGame,
-    platform: IPlatform
+export interface GamePlatformDto extends IAbstractWheelElement {
+    game?: GameDto,
+    platform: PlatformDto,
+    sourceType: SourceType,
+    sourceId: string
 }
 
-export interface ICollectedGamePlatformDto {
+export interface CollectedGamePlatformDto {
     id: number,
     collectionDate: Date,
     status: CollectedGameStatus,
     spentTime?: string, // Duration
-    comment?: string
-    gamePlatform: IGameOnPlatformDto
+    comment?: string,
+    gamePlatform: GamePlatformDto
+}
+
+export interface CollectedGamePlatformUpdateDto {
+    id: number,
+    collectionDate: Date,
+    status: CollectedGameStatus,
+    spentTime?: string,
+    comment?: string,
+    gamePlatformId: number
 }
 
 export enum CollectedGameStatus {

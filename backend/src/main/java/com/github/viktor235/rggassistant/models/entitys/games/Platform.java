@@ -40,9 +40,8 @@ public class Platform {
     @Column(name = "source_id")
     private String sourceId;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "platform")
-    Set<GamePlatform> gamePlatforms;
+    private Set<GamePlatform> gamePlatforms;
 
     // info_link - link to a online info page
 }

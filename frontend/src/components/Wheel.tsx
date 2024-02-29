@@ -2,7 +2,7 @@ import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { WheelHandler } from "../helpers/WheelHandler";
 import { IAbstractWheelElement } from "../types/CommonTypes";
-import { IGameOnPlatformDto } from "../types/GameTypes";
+import { GamePlatformDto } from "../types/GameTypes";
 import { IAbstractModifier, IEffect, IItem, ModifierType } from "../types/ModifierTypes";
 import { EffectCard, GameCard, ItemCard } from "./Card";
 
@@ -14,7 +14,7 @@ export enum WheelElementType {
 // Game wheel
 
 interface GameWheelProps {
-    games: IGameOnPlatformDto[]
+    games: GamePlatformDto[]
 }
 
 export function GameWheel({ games }: GameWheelProps) {
@@ -76,7 +76,7 @@ export function Wheel({ elements, type }: WheelProps) {
                 return window?.map((value, index) => value &&
                     <GameCard
                         key={index}
-                        gameOnPlatform={value as IGameOnPlatformDto}
+                        gamePlatform={value as GamePlatformDto}
                         highlighted={!spinning && index === Math.floor(window.length / 2)}
                     />
                 )

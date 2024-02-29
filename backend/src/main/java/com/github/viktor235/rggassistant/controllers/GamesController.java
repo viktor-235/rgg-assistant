@@ -1,12 +1,7 @@
 package com.github.viktor235.rggassistant.controllers;
 
-import com.github.viktor235.rggassistant.mappers.CollectedGamePlatformMapper;
-import com.github.viktor235.rggassistant.mappers.GameOnPlatformMapper;
-import com.github.viktor235.rggassistant.models.entitys.games.CollectedGamePlatform;
-import com.github.viktor235.rggassistant.models.entitys.games.Game;
-import com.github.viktor235.rggassistant.models.entitys.games.Platform;
-import com.github.viktor235.rggassistant.models.dto.CollectedGamePlatformDto;
-import com.github.viktor235.rggassistant.models.dto.GameOnPlatformDto;
+import com.github.viktor235.rggassistant.mappers.GameMapper;
+import com.github.viktor235.rggassistant.models.dto.*;
 import com.github.viktor235.rggassistant.services.GamesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,32 +18,35 @@ import java.util.Objects;
 @RequestMapping("api/games")
 public class GamesController {
     private final GamesService gamesService;
-    private final GameOnPlatformMapper gameOnPlatformMapper;
-    private final CollectedGamePlatformMapper collectedGamePlatformMapper;
+    private final GameMapper gameMapper;
 
     /* Platforms */
 
     @Operation(summary = "Get all available game platforms (consoles)")
     @GetMapping("/platforms")
-    public List<Platform> getPlatforms() {
-        return gamesService.getPlatforms();
+    public List<PlatformDto> getPlatforms() {
+        return gameMapper.toPlatformDtoList(
+                gamesService.getPlatforms()
+        );
     }
 
     /* Games */
 
     @Operation(summary = "Get all games")
     @GetMapping()
-    public List<Game> getAllGames() {
-        return gamesService.getAllGames();
+    public List<GameDto> getAllGames() {
+        return gameMapper.toGameDtoList(
+                gamesService.getAllGames()
+        );
     }
 
     @Operation(summary = "Get randomized list of GamePlatform. Can be filtered by the platformId")
     @GetMapping("/randomized")
-    public List<GameOnPlatformDto> getAllRandomized(
+    public List<GamePlatformDto> getAllRandomized(
             @Parameter(description = "id of the platform to filter the result. If not specified, all GamePlatform will be returned")
             @RequestParam(required = false) Integer platformId
     ) {
-        return gameOnPlatformMapper.toDtoList(
+        return gameMapper.toGamePlatformDtoList(
                 gamesService.getAllRandomized(platformId)
         );
     }
@@ -58,7 +56,7 @@ public class GamesController {
     @Operation(summary = "Get all CollectedGamePlatform")
     @GetMapping("/gameCollection")
     public List<CollectedGamePlatformDto> getCollectedGamePlatforms() {
-        return collectedGamePlatformMapper.toDtoList(
+        return gameMapper.toCollectedGamePlatformDtoList(
                 gamesService.getCollectedGamePlatforms()
         );
     }
@@ -87,13 +85,12 @@ public class GamesController {
             @Parameter(description = "GamePlatform id")
             @PathVariable long id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "GamePlatform data to update")
-            @RequestBody CollectedGamePlatformDto collectedGamePlatform
+            @RequestBody CollectedGamePlatformUpdateDto cgpUpdateDto
     ) {
-        if (!Objects.equals(id, collectedGamePlatform.getId())) {
+        if (!Objects.equals(id, cgpUpdateDto.getId())) {
             throw new IllegalArgumentException("Ids don't match");
         }
-        CollectedGamePlatform updatedCgp = collectedGamePlatformMapper.toEntity(collectedGamePlatform);
-        gamesService.updateCollectedGamePlatform(updatedCgp);
+        gamesService.updateCollectedGamePlatform(cgpUpdateDto);
     }
 
     @Operation(summary = "Delete a GamePlatform from collection by id")

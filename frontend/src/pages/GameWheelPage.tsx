@@ -4,13 +4,13 @@ import Grid from '@mui/system/Unstable_Grid';
 import { useEffect, useState } from "react";
 import { GameWheel } from "../components/Wheel";
 import { useApiClient } from "../contexts/ApiClientContext";
-import { IGameOnPlatformDto, IPlatform } from "../types/GameTypes";
+import { GamePlatformDto, PlatformDto } from "../types/GameTypes";
 
 export default function GameWheelPage() {
     const apiClient = useApiClient();
-    const [platforms, setPlatforms] = useState<Array<IPlatform>>([]);
+    const [platforms, setPlatforms] = useState<Array<PlatformDto>>([]);
     const [selectedPlatformId, setSelectedPlatformId] = useState<number>(-1);
-    const [gameOnPlatforms, setGamesOnPlatforms] = useState<Array<IGameOnPlatformDto>>([]);
+    const [gamePlatforms, setGamePlatforms] = useState<Array<GamePlatformDto>>([]);
 
     useEffect(() => {
         apiClient.getPlatforms(setPlatforms)
@@ -19,7 +19,7 @@ export default function GameWheelPage() {
     const roll = () => {
         apiClient.getRandomGames(
             selectedPlatformId > 0 ? selectedPlatformId : undefined,
-            setGamesOnPlatforms
+            setGamePlatforms
         )
     }
 
@@ -53,7 +53,7 @@ export default function GameWheelPage() {
                 </Paper>
             </Grid>
             <Grid sm={7} md={8} lg={9}>
-                <GameWheel games={gameOnPlatforms} />
+                <GameWheel games={gamePlatforms} />
             </Grid>
         </Grid>
     )

@@ -25,12 +25,10 @@ public class GamePlatform {
 
     @ManyToOne()
     @JoinColumn(name = "game_id")
-    @JsonIgnore
     private Game game;
 
     @ManyToOne
     @JoinColumn(name = "platform_id", nullable = false)
-    @JsonIgnore
     private Platform platform;
 
     /**
